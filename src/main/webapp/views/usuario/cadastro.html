@@ -1,0 +1,31 @@
+<div ng-controller="UsuarioController">
+                <div id="div_mensagem" class="hide alert alert-success">
+                        {{mensagem}}
+                </div>
+        <br />
+
+        <form role="form" name="usuarioForm" ng-submit="salvar()">
+                <fieldset>
+                        <div class="form-group col-md-12">
+                                <label class="control-label">Nome</label>
+                                <input class="form-control" placeholder="Nome" name="nome" type="name" autofocus ng-model="usuario.nome" required>
+                                <span ng-class="error" ng-show="usuarioForm.nome.$error.required && usuarioForm.nome.$dirty">Nome é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                                <label>Login</label>
+                                <input class="form-control" placeholder="Login" name="login" type="login" autofocus ng-model="usuario.login" required>
+                                <span ng-class="error" ng-show="usuarioForm.login.$error.required && usuarioForm.login.$dirty">Login é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                                <label>Senha</label>
+                                <input class="form-control" placeholder="Senha" name="senha" type="password" value="" ng-model="usuario.senha" required>
+                                <span ng-class="error" ng-show="usuarioForm.senha.$error.required && usuarioForm.senha.$dirty">Senha é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-5" >
+                        </div>
+                        <div class="form-group col-md-2" >
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Salvar">
+                        </div>
+                </fieldset>
+        </form>
+</div>
