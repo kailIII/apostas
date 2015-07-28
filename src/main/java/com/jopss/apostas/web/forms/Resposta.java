@@ -6,20 +6,39 @@ import java.sql.BatchUpdateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import org.springframework.transaction.TransactionSystemException;
 
 public class Resposta implements Serializable{
+        
+        private static final int HTTP_STATUS_ERROR = 500;
+        private static final int HTTP_STATUS_VALIDATION = 403;
+        private static final int HTTP_STATUS_SUCCESS = 200;
         
         private Modelos modelo;
         private List<Modelos> lista;
         private List<Retorno> mensagens;
 
-        public void setModelo(Modelos modelo) {
+        public void setModelo(Modelos modelo, HttpServletResponse resp) {
                 this.modelo = modelo;
+                resp.setStatus(HTTP_STATUS_SUCCESS);
         }
 
-        public void addErroGenerico(Exception ex){  
+        public void setLista(List<Modelos> lista, HttpServletResponse resp) {
+                this.lista = lista;
+                resp.setStatus(HTTP_STATUS_SUCCESS);
+        }
+        
+        /**
+         * Adiciona qualquer mensagem de erro, alterando o Status HTTP relativo.
+         * Pode tratar erros SQL nativo, como unique.
+         * 
+         * @param ex Exception
+         * @param resp HttpServletResponse
+         */
+        public void addErroGenerico(Exception ex, HttpServletResponse resp){  
                 Throwable cause = ex.getCause();
                 if(cause instanceof org.hibernate.exception.ConstraintViolationException){
                         org.hibernate.exception.ConstraintViolationException hib = (org.hibernate.exception.ConstraintViolationException)cause;
@@ -33,15 +52,28 @@ public class Resposta implements Serializable{
                         }
                 }
                 getMensagens().add(new Retorno("erro", ex.getMessage()));
+                resp.setStatus(HTTP_STATUS_ERROR);
         }
         
-        public void addErros(ConstraintViolationException ex){
-                Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
-                if(constraintViolations!=null){
-                        for(ConstraintViolation cons : constraintViolations){
-                                getMensagens().add(new Retorno(cons.getPropertyPath().toString(), cons.getMessage()));
+        /**
+         * Adiciona qualquer mensagem de validacao de campos BeanValidator, alterando o Status HTTP relativo.
+         * 
+         * @param ex TransactionSystemException
+         * @param resp HttpServletResponse
+         */
+        public void addErros(TransactionSystemException ex, HttpServletResponse resp){
+                if(ex.getRootCause() instanceof ConstraintViolationException){
+                        ConstraintViolationException exContrain = (ConstraintViolationException) ex.getRootCause();
+                        Set<ConstraintViolation<?>> constraintViolations = exContrain.getConstraintViolations();
+                        if(constraintViolations!=null){
+                                for(ConstraintViolation cons : constraintViolations){
+                                        getMensagens().add(new Retorno(cons.getPropertyPath().toString(), cons.getMessage()));
+                                }
+                                resp.setStatus(HTTP_STATUS_VALIDATION);
                         }
-                }
+                 }else{
+                         this.addErroGenerico(ex, resp);
+                 }
         }
         
         public List<Retorno> getMensagens(){
@@ -51,6 +83,17 @@ public class Resposta implements Serializable{
                 return mensagens;
         }
         
+        public Modelos getModelo() {
+                return modelo;
+        }
+
+        public List<Modelos> getLista() {
+                return lista;
+        }
+        
+        /**
+         * Indica campos ou chaves com seus respectivos valores sobre erros e validacoes.
+         */
         public static class Retorno implements Serializable{
                 private String chave;
                 private String valor;
@@ -69,13 +112,4 @@ public class Resposta implements Serializable{
                 }
                 
         }
-
-        public Modelos getModelo() {
-                return modelo;
-        }
-
-        public List<Modelos> getLista() {
-                return lista;
-        }
-        
 }

@@ -4,6 +4,7 @@
         <persistence-unit name="main_persistenceUnit" transaction-type="RESOURCE_LOCAL">
                 
                 <class>com.jopss.apostas.modelos.Usuario</class>
+                <class>com.jopss.apostas.modelos.Aposta</class>
                 
                 <properties>
                         <property name="hibernate.hbm2ddl.auto" value="none"/>

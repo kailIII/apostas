@@ -21,28 +21,17 @@ public class UsuarioController extends ApostasController{
         @ResponseBody
 	public Resposta salvar(@RequestBody Usuario usuario, HttpServletResponse resp, HttpSession session) {
                 Resposta resposta = new Resposta();
-                
                 try {
                         usuario = usuario.salvar();
-                        resp.setStatus(200);
-                        resposta.setModelo(usuario);
+                        resposta.setModelo(usuario, resp);
                         
                 } catch (TransactionSystemException ex) {
                         log.error(ex);
-                        if(ex.getRootCause() instanceof ConstraintViolationException){
-                               resposta.addErros( ((ConstraintViolationException)ex.getRootCause()) );
-                               resp.setStatus(403);
-                        }else{
-                                resposta.addErroGenerico(ex);
-                                resp.setStatus(500);
-                        }
+                        resposta.addErros(ex, resp);
                 } catch (Exception ex) {
                         log.error(ex);
-                        resposta.addErroGenerico(ex);
-                        resp.setStatus(500);
-                        
+                        resposta.addErroGenerico(ex, resp);
                 }
-                
                 return resposta;
 	}
         
