@@ -6,7 +6,7 @@ appMain.service("Aposta", ["Restangular", "CONST", function (Restangular, CONST)
 
 appMain.controller("ApostaController", ["$scope", "CONST", "Aposta", "Usuario",
         function ($scope, CONST, Aposta, Usuario) {
-                $scope.aposta = {descricao: '', dateFinalizacao: '', palpites: []};
+                $scope.aposta = {descricao: '', dateFinalizacao: null, palpites: []};
                 $scope.palpite = {descricao: '', usuario: ''};
                 
                 $scope.adicionarPalpite = function () {
