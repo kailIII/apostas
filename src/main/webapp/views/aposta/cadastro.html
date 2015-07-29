@@ -1,0 +1,68 @@
+<div ng-controller="ApostaController">
+        <mensagem valor="mensagem"></mensagem>
+        <br />
+
+        <form role="form" name="apostaForm" ng-submit="salvar()">
+                <h3>Aposta</h3>
+                <fieldset>
+                        <div class="form-group col-md-12">
+                                <label class="control-label">Descrição</label>
+                                <input class="form-control" placeholder="Descrição" name="descricao" type="text" autofocus ng-model="aposta.descricao" required>
+                                <span ng-class="error" ng-show="apostaForm.descricao.$error.required && apostaForm.descricao.$dirty">Descrição é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-12">
+                                <label>Data Final</label>
+                                <input class="form-control" placeholder="Data Final" name="dateFinalizacao" type="text" ng-model="aposta.dateFinalizacao" required>
+                                <span ng-class="error" ng-show="apostaForm.dateFinalizacao.$error.required && apostaForm.dateFinalizacao.$dirty">Date Final é obrigatória</span>
+                        </div>
+                </fieldset>
+                
+                <h3>Pessoas</h3>
+                <fieldset>
+                        <div class="form-group col-md-12">
+                                <select class="form-control" name="usuario" ng-options="usu.nome for usu in usuarios track by usu.id" ng-model="palpite.usuario" >
+                                        <option value="">Selecione...</option>
+                                </select>
+                        </div>
+                        
+                        <div class="form-group col-md-12">
+                                <label class="control-label">Palpite</label>
+                                <input class="form-control" placeholder="Palpite" name="palpite_descricao" type="text" autofocus ng-model="palpite.descricao">
+                        </div>
+                        
+                        <div class="form-group col-md-5" >
+                        </div>
+                        <div class="form-group col-md-2" >
+                                <input type="button" class="btn btn-lg btn-primary btn-block" value="Adicionar Palpite" ng-click="adicionarPalpite()">
+                        </div>
+                </fieldset>
+                
+                <table class="table table-bordered">
+                        <thead>
+                                <tr>
+                                        <th>Nome</th>
+                                        <th>Palpite</th>
+                                        <th>Ações</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <tr ng-repeat="pal in aposta.palpites" >
+                                        <td>{{pal.usuario.nome}}</td>
+                                        <td>{{pal.descricao}}</td>
+                                        <td>
+                                                <input type="button" class="btn btn-lg btn-danger" value="Remover">
+                                                <input type="button" class="btn btn-lg btn-info" value="Declarar Vencedor">
+                                        </td>
+                                </tr>
+                        </tbody>
+                </table>
+                
+                <fieldset>
+                        <div class="form-group col-md-5" >
+                        </div>
+                        <div class="form-group col-md-2" >
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Salvar Aposta">
+                        </div>
+                </fieldset>
+        </form>
+</div>

@@ -1,14 +1,13 @@
 <div ng-controller="UsuarioController">
-                <div id="div_mensagem" class="hide alert alert-success">
-                        {{mensagem}}
-                </div>
+        <mensagem valor="mensagem"></mensagem>
         <br />
 
         <form role="form" name="usuarioForm" ng-submit="salvar()">
+                <h3>Usuário</h3>
                 <fieldset>
                         <div class="form-group col-md-12">
                                 <label class="control-label">Nome</label>
-                                <input class="form-control" placeholder="Nome" name="nome" type="name" autofocus ng-model="usuario.nome" required>
+                                <input class="form-control" placeholder="Nome" name="nome" type="text" autofocus ng-model="usuario.nome" required>
                                 <span ng-class="error" ng-show="usuarioForm.nome.$error.required && usuarioForm.nome.$dirty">Nome é obrigatório</span>
                         </div>
                         <div class="form-group col-md-6">

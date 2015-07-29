@@ -18,7 +18,7 @@ public class Resposta implements Serializable{
         private static final int HTTP_STATUS_SUCCESS = 200;
         
         private Modelos modelo;
-        private List<Modelos> lista;
+        private List lista;
         private List<Retorno> mensagens;
 
         public void setModelo(Modelos modelo, HttpServletResponse resp) {
@@ -26,7 +26,7 @@ public class Resposta implements Serializable{
                 resp.setStatus(HTTP_STATUS_SUCCESS);
         }
 
-        public void setLista(List<Modelos> lista, HttpServletResponse resp) {
+        public void setLista(List lista, HttpServletResponse resp) {
                 this.lista = lista;
                 resp.setStatus(HTTP_STATUS_SUCCESS);
         }

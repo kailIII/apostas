@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,16 +32,13 @@ public class Aposta extends Modelos {
         @NotEmpty
         private String descricao;
         
+        @Future
         @NotNull
         @Temporal(TemporalType.DATE)
         private Date dateFinalizacao;
         
-        @ManyToOne
-        private Usuario vencedor;
-        
-        @NotNull
-        @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-        private List<Usuario> usuarios;
+        @OneToMany(mappedBy = "aposta", orphanRemoval = true, cascade = CascadeType.ALL)
+        private List<Palpite> palpites;
 
         public Aposta() {
         }
@@ -79,12 +77,11 @@ public class Aposta extends Modelos {
                 return dateFinalizacao;
         }
 
-        public Usuario getVencedor() {
-                return vencedor;
+        public List<Palpite> getPalpites() {
+                return palpites;
         }
 
-        public List<Usuario> getUsuarios() {
-                return usuarios;
+        public void setPalpites(List<Palpite> palpites) {
+                this.palpites = palpites;
         }
-
 }

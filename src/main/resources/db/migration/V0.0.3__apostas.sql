@@ -4,14 +4,18 @@ CREATE TABLE aposta(
   datacriacao timestamp NOT NULL,
   datefinalizacao date NOT NULL,
   descricao varchar(255) NOT NULL,
-  vencedor_id bigint,
-  CONSTRAINT aposta_pkey PRIMARY KEY (id),
-  CONSTRAINT aposta_vencedor_fkey FOREIGN KEY (vencedor_id) REFERENCES usuario (id)
+  CONSTRAINT aposta_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE aposta_usuario(
+CREATE TABLE palpite(
+  id bigint NOT NULL,
+  dataatualizacao timestamp,
+  datacriacao timestamp NOT NULL,
+  descricao varchar(255) NOT NULL,
+  venceu boolean NOT NULL,
+  usuario_id bigint NOT NULL,
   aposta_id bigint NOT NULL,
-  usuarios_id bigint NOT NULL,
-  CONSTRAINT apostausuario_usu_fkey FOREIGN KEY (usuarios_id) REFERENCES usuario (id),
-  CONSTRAINT apostausuario_aposta_fkey FOREIGN KEY (aposta_id) REFERENCES aposta (id)
+  CONSTRAINT palpite_pkey PRIMARY KEY (id),
+  CONSTRAINT palpite_usuario_fkey FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+  CONSTRAINT palpite_aposta_fkey FOREIGN KEY (aposta_id) REFERENCES aposta(id)
 );

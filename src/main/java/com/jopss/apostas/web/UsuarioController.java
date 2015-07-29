@@ -5,7 +5,6 @@ import com.jopss.apostas.web.forms.Resposta;
 import com.jopss.apostas.web.util.ApostasController;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionSystemException;
@@ -28,6 +27,32 @@ public class UsuarioController extends ApostasController{
                 } catch (TransactionSystemException ex) {
                         log.error(ex);
                         resposta.addErros(ex, resp);
+                } catch (Exception ex) {
+                        log.error(ex);
+                        resposta.addErroGenerico(ex, resp);
+                }
+                return resposta;
+	}
+        
+        @RequestMapping(value = "/usuario/buscar-todos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        @ResponseBody
+	public Resposta buscarTodos(HttpServletResponse resp, HttpSession session) {
+                Resposta resposta = new Resposta();
+                try {
+                        resposta.setLista((new Usuario()).buscarTodos(), resp);
+                } catch (Exception ex) {
+                        log.error(ex);
+                        resposta.addErroGenerico(ex, resp);
+                }
+                return resposta;
+	}
+        
+        @RequestMapping(value = "/usuario/buscar-logado", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        @ResponseBody
+	public Resposta buscarLogado(HttpServletResponse resp, HttpSession session) {
+                Resposta resposta = new Resposta();
+                try {
+                        resposta.setModelo(super.sessaoUsuario.getUsuarioLogado(session), resp);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);

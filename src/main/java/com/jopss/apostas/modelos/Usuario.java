@@ -4,6 +4,7 @@ import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.excecoes.LoginInvalidoException;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepositorio;
 import com.jopss.apostas.util.Modelos;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,6 +48,10 @@ public class Usuario extends Modelos {
 		return this.getRepositorio().buscarPorId(id);
 	}
         
+        public List<Usuario> buscarTodos(){
+                return this.getRepositorio().buscarTodos();
+        }
+        
         public Usuario autenticar() throws LoginInvalidoException {
                 Usuario usuarioBase =  this.getRepositorio().buscarPorLoginESenha(this.login, this.senha);
                 if(usuarioBase != null){
@@ -56,6 +61,9 @@ public class Usuario extends Modelos {
                 }
         }
         
+        /**
+         * Regras de unicidade de login e obrigatoriedade está ou banco.
+         */
         public Usuario salvar() throws ApostasException{
                 return this.getRepositorio().salvar(this);
         }
