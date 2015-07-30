@@ -28,7 +28,7 @@ public class UsuarioController extends ApostasController{
                 Resposta resposta = new Resposta();
                 try {
                         usuario = usuario.salvar();
-                        resposta.setModelo(usuario, resp);
+                        resposta.setModelo(usuario, resp, "usuario.sucesso");
                         
                 } catch (TransactionSystemException ex) {
                         log.error(ex);

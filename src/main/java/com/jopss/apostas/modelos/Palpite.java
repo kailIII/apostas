@@ -46,8 +46,8 @@ public class Palpite extends Modelos {
                 return (PalpiteRepositorio) super.getRepositorio();
         }
         
-        public Palpite buscarPorId(Long id) {
-		return this.getRepositorio().buscarPorId(id);
+        public Palpite buscarPorId() {
+		return this.getRepositorio().buscarPorId(this.getId());
 	}
         
         /**

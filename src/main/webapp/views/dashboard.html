@@ -1,24 +1,27 @@
 <div ng-controller="DashboardController">
-    <h3>Dashboard</h3>
-    <table class="table table-bordered table-responsive">
-        <caption>Apostas:</caption>
-        <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Data Final</th>
-                <th>Venceu ?</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="aposta in apostas">
-                <td>{{aposta.descricao}}</td>
-                <td>{{aposta.dateFinalizacao}}</td>
-                <td>-</td>
-                <td>
-                    <!--Aqui vao as acoes -->
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <mensagem valor="mensagem"></mensagem>
+        <br />
+        <h3>Dashboard</h3>
+        <table class="table table-bordered table-responsive">
+                <caption>Apostas:</caption>
+                <thead>
+                        <tr>
+                                <th>Descrição</th>
+                                <th>Data Final</th>
+                                <th>Venceu ?</th>
+                                <th>Ações</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr ng-repeat="aposta in apostas">
+                                <td>{{aposta.descricao}}</td>
+                                <td>{{aposta.dateFinalizacao | date:'dd/MM/yyyy'}}</td>
+                                <td>-</td>
+                                <td>
+                                        <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="editar(aposta.id)"/>
+                                        <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="deletar(aposta.id)"/>
+                                </td>
+                        </tr>
+                </tbody>
+        </table>
 </div>

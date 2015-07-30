@@ -38,14 +38,18 @@ public class Usuario extends Modelos {
 
         public Usuario() {
         }
+
+        public Usuario(Long id) {
+                this.id = id;
+        }
         
         @Override
         protected UsuarioRepositorio getRepositorio(){
                 return (UsuarioRepositorio) super.getRepositorio();
         }
         
-        public Usuario buscarPorId(Long id) {
-		return this.getRepositorio().buscarPorId(id);
+        public Usuario buscarPorId() {
+		return this.getRepositorio().buscarPorId(this.getId());
 	}
         
         public List<Usuario> buscarTodos(){

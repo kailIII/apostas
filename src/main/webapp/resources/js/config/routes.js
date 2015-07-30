@@ -23,5 +23,9 @@ appMain.config(["RestangularProvider", "$routeProvider", "CONST", function (Rest
                         templateUrl: getContexto(CONST)+"/pages/aposta/",
                         controller: "ApostaController"
                 });
+                $routeProvider.when("/aposta/:id", {
+                        templateUrl: getContexto(CONST)+"/pages/aposta/{id}",
+                        controller: "ApostaController"
+                });
         }
 ]);

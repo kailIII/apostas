@@ -3,10 +3,10 @@ appMain.controller("UsuarioController", ["$scope", "$routeParams", "Usuario",
                 $scope.usuario = {nome: '', login: '', senha: ''};
                 $scope.salvar = function () {
                         Usuario.salvar($scope.usuario).then(function (result) {
-                                addMensagemSucesso($scope, "Usuário cadastrado com sucesso!");
+                                addMensagemRetorno($scope, result);
                                 delete $scope.usuario;
                         }, function (result) {
-                                addMensagemRetornoValidacao($scope, result);
+                                addMensagemRetorno($scope, result);
                         });
                 };
 
@@ -16,7 +16,7 @@ appMain.controller("UsuarioController", ["$scope", "$routeParams", "Usuario",
                                 Usuario.buscarLogado().then(function (result) {
                                         $scope.usuario = result.modelo;
                                 }, function (result) {
-                                        addMensagemRetornoValidacao($scope, result);
+                                        addMensagemRetorno($scope, result);
                                         delete $scope.usuario;
                                 });
                         }

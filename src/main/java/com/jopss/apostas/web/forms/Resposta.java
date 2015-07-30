@@ -1,5 +1,6 @@
 package com.jopss.apostas.web.forms;
 
+import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.Modelos;
 import java.io.Serializable;
 import java.sql.BatchUpdateException;
@@ -22,13 +23,23 @@ public class Resposta implements Serializable{
         private List<Retorno> mensagens;
 
         public void setModelo(Modelos modelo, HttpServletResponse resp) {
+                this.setModelo(modelo, resp, "sucesso");
+        }
+        
+        public void setModelo(Modelos modelo, HttpServletResponse resp, String msg) {
                 this.modelo = modelo;
                 resp.setStatus(HTTP_STATUS_SUCCESS);
+                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
         }
 
         public void setLista(List lista, HttpServletResponse resp) {
+                this.setLista(lista, resp, "sucesso");
+        }
+        
+        public void setLista(List lista, HttpServletResponse resp, String msg) {
                 this.lista = lista;
                 resp.setStatus(HTTP_STATUS_SUCCESS);
+                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
         }
         
         /**
@@ -51,7 +62,7 @@ public class Resposta implements Serializable{
                                 }
                         }
                 }
-                getMensagens().add(new Retorno("erro", ex.getMessage()));
+                getMensagens().add(new Retorno("mensagem", ex.getMessage()));
                 resp.setStatus(HTTP_STATUS_ERROR);
         }
         

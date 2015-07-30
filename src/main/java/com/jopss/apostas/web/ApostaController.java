@@ -1,36 +1,67 @@
 package com.jopss.apostas.web;
 
 import com.jopss.apostas.modelos.Aposta;
-import com.jopss.apostas.modelos.Palpite;
 import com.jopss.apostas.web.forms.Resposta;
 import com.jopss.apostas.web.util.ApostasController;
-import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/aposta")
 public class ApostaController extends ApostasController {
 
-        @RequestMapping(value = "/", method = RequestMethod.GET)
+        @RequestMapping(value = "/aposta/", method = RequestMethod.GET)
 	public String abrir() {
 		return "aposta/cadastro";
 	}
         
-        @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
-        public Resposta salvar(@RequestBody Aposta aposta, HttpServletResponse resp, HttpSession session) {
+        @RequestMapping(value = "/aposta/{id}", method = RequestMethod.DELETE)
+	public Resposta deletar(@PathVariable Long id, HttpServletResponse resp) {
+                Resposta resposta = new Resposta();
+                try {
+                        new Aposta(id).remover();
+                        resposta.setLista((new Aposta()).buscarTodos(), resp, "aposta.sucesso.deletar");
+                        
+                } catch (TransactionSystemException ex) {
+                        log.error(ex);
+                        resposta.addErros(ex, resp);
+                } catch (Exception ex) {
+                        log.error(ex);
+                        resposta.addErroGenerico(ex, resp);
+                }
+                return resposta;
+	}
+        
+        @ResponseBody
+        @RequestMapping(value = "/aposta/{id}", method = RequestMethod.GET)
+	public Resposta editar(@PathVariable Long id, HttpServletResponse resp) {
+                Resposta resposta = new Resposta();
+                try {
+                        resposta.setModelo(new Aposta(id).buscarPorId(), resp);
+                } catch (TransactionSystemException ex) {
+                        log.error(ex);
+                        resposta.addErros(ex, resp);
+                } catch (Exception ex) {
+                        log.error(ex);
+                        resposta.addErroGenerico(ex, resp);
+                }
+                return resposta;
+	}
+        
+        @ResponseBody
+        @RequestMapping(value = "/aposta/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+        public Resposta salvar(@RequestBody Aposta aposta, HttpServletResponse resp) {
                 Resposta resposta = new Resposta();
                 try {
                         aposta = aposta.salvar();
-                        resposta.setModelo(aposta, resp);
+                        resposta.setModelo(aposta, resp, "aposta.sucesso");
                         
                 } catch (TransactionSystemException ex) {
                         log.error(ex);
@@ -41,5 +72,19 @@ public class ApostaController extends ApostasController {
                 }
                 return resposta;
         }
+        
+        @ResponseBody
+        @RequestMapping(value = "/apostas/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resposta buscarTodos(HttpServletResponse resp) {
+                Resposta resposta = new Resposta();
+                try{
+                        
+                        resposta.setLista((new Aposta()).buscarTodos(), resp);
+                } catch (Exception ex) {
+                        log.error(ex);
+                        resposta.addErroGenerico(ex, resp);
+                }
+                return resposta;
+	}
 
 }

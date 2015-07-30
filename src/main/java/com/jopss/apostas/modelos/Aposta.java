@@ -1,7 +1,7 @@
 package com.jopss.apostas.modelos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.servicos.repositorio.ApostaRepositorio;
 import com.jopss.apostas.util.Modelos;
@@ -40,10 +40,13 @@ public class Aposta extends Modelos {
         private Date dateFinalizacao;
         
         @OneToMany(mappedBy = "aposta", orphanRemoval = true, cascade = CascadeType.ALL)
-        @JsonIgnore
         private List<Palpite> palpites;
 
         public Aposta() {
+        }
+
+        public Aposta(Long id) {
+                this.id = id;
         }
         
         @Override
@@ -51,8 +54,8 @@ public class Aposta extends Modelos {
                 return (ApostaRepositorio) super.getRepositorio();
         }
         
-        public Aposta buscarPorId(Long id) {
-		return this.getRepositorio().buscarPorId(id);
+        public Aposta buscarPorId() {
+		return this.getRepositorio().buscarPorId(this.getId());
 	}
         
         public List<Aposta> buscarTodos(){
@@ -64,6 +67,10 @@ public class Aposta extends Modelos {
                         palpite.setAposta(this);
                 }
                 return this.getRepositorio().salvar(this);
+        }
+        
+        public void remover() throws ApostasException{
+                this.getRepositorio().remover(this);
         }
         
         @Override

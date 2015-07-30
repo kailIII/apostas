@@ -42,7 +42,7 @@ public abstract class Repositorio implements Serializable {
                 try {
 
                         EntityManager em = getEntityManagerMain();
-                        em.remove(modelo);
+                        em.remove( salvar(modelo) );
 
                 } catch (Exception ex) {
                         throw new RuntimeException(ex);

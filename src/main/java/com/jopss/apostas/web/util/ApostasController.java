@@ -37,7 +37,7 @@ public abstract class ApostasController {
 			@Override
 			public void setAsText(String text) throws IllegalArgumentException {
 				if (ValidatorUtil.isNotNullAndNotEmpty(text)) {
-					setValue(new Usuario().buscarPorId(Long.valueOf(text)));
+					setValue(new Usuario(Long.valueOf(text)).buscarPorId());
 				} else {
 					setValue(null);
 				}
