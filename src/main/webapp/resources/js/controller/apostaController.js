@@ -1,12 +1,11 @@
 appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usuario",
         function ($scope, $routeParams, Aposta, Usuario) {
-                $scope.aposta = {descricao: '', dateFinalizacao: null, palpites: []};
-                $scope.palpite = {descricao: '', usuario: ''};
+                limparTela($scope);
                 
                 $scope.adicionarPalpite = function () {
                         if ($scope.palpite.descricao != '' && $scope.palpite.usuario != '') {
                                 $scope.aposta.palpites.push($scope.palpite);
-                                delete $scope.palpite;
+                                $scope.palpite = {descricao: '', usuario: ''};
                         } else {
                                 addMensagemValidacao($scope, "Verifique os campos obrigatórios: Usuário e Palpite");
                         }
@@ -18,8 +17,7 @@ appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usua
                         } else {
                                 Aposta.salvar($scope.aposta).then(function (result) {
                                         addMensagemRetorno($scope, result);
-                                        delete $scope.aposta;
-                                        delete $scope.palpite;
+                                        limparTela($scope);
                                 }, function (result) {
                                         addMensagemRetorno($scope, result);
                                 });
@@ -33,7 +31,7 @@ appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usua
                                         $scope.aposta = result.modelo;
                                 }, function (result) {
                                         addMensagemRetorno($scope, result);
-                                        delete $scope.aposta;
+                                        limparTela($scope);
                                 });
                         }
                         //carrega a combo de usuarios utilizadas no cadastro de apostas
@@ -41,7 +39,7 @@ appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usua
                                 $scope.usuarios = result.lista;
                         }, function (result) {
                                 addMensagemRetorno($scope, result);
-                                delete $scope.usuarios;
+                                limparTela($scope);
                         });
                 };
                 $scope.init();
@@ -49,4 +47,8 @@ appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usua
         }
 ]);
 
-
+function limparTela($scope){
+        $scope.aposta = {descricao: '', dateFinalizacao: null, palpites: []};
+        $scope.palpite = {descricao: '', usuario: ''};
+        $scope.usuarios = {};
+}

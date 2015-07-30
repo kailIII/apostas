@@ -1,9 +1,11 @@
 package com.jopss.apostas.modelos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.servicos.repositorio.ApostaRepositorio;
+import com.jopss.apostas.util.JsonDateDeserializer;
+import com.jopss.apostas.util.JsonDateSerializer;
 import com.jopss.apostas.util.Modelos;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +38,8 @@ public class Aposta extends Modelos {
         @Future
         @NotNull
         @Temporal(TemporalType.DATE)
-        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+        @JsonSerialize(using=JsonDateSerializer.class)
+        @JsonDeserialize(using=JsonDateDeserializer.class)
         private Date dateFinalizacao;
         
         @OneToMany(mappedBy = "aposta", orphanRemoval = true, cascade = CascadeType.ALL)

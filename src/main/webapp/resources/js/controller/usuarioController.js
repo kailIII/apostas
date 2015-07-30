@@ -1,10 +1,11 @@
 appMain.controller("UsuarioController", ["$scope", "$routeParams", "Usuario",
         function ($scope, $routeParams, Usuario) {
-                $scope.usuario = {nome: '', login: '', senha: ''};
+                limparTela($scope);
+                
                 $scope.salvar = function () {
                         Usuario.salvar($scope.usuario).then(function (result) {
                                 addMensagemRetorno($scope, result);
-                                delete $scope.usuario;
+                                limparTela($scope);
                         }, function (result) {
                                 addMensagemRetorno($scope, result);
                         });
@@ -17,7 +18,7 @@ appMain.controller("UsuarioController", ["$scope", "$routeParams", "Usuario",
                                         $scope.usuario = result.modelo;
                                 }, function (result) {
                                         addMensagemRetorno($scope, result);
-                                        delete $scope.usuario;
+                                        limparTela($scope);
                                 });
                         }
                         $scope.init();
@@ -26,4 +27,8 @@ appMain.controller("UsuarioController", ["$scope", "$routeParams", "Usuario",
         }
 ]);
 
+
+function limparTela($scope){
+        $scope.usuario = {nome: '', login: '', senha: ''};
+}
 

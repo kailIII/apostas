@@ -12,7 +12,7 @@
                         </div>
                         <div class="form-group col-md-12">
                                 <label>Data Final</label>
-                                <input class="form-control datepicker" placeholder="Data Final" id="dateFinalizacao" name="dateFinalizacao" type="text" ng-model="aposta.dateFinalizacao" required>
+                                <input class="form-control" placeholder="Data Final" id="dateFinalizacao" name="dateFinalizacao" type="text" ng-model="aposta.dateFinalizacao" required datepicker>
                                 <span ng-class="error" ng-show="apostaForm.dateFinalizacao.$error.required && apostaForm.dateFinalizacao.$dirty">Date Final é obrigatória</span>
                         </div>
                 </fieldset>
@@ -67,8 +67,8 @@
         </form>
         
         <script>
-                $(document).ready(function () {
-                        $(".datepicker").datepicker();
-                });
+//                $(document).ready(function () {
+//                        $(".datepicker").datepicker();
+//                });
         </script>
 </div>
