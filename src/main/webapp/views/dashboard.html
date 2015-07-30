@@ -1,5 +1,24 @@
 <div ng-controller="DashboardController">
-        <h3>{{msg}}</h3>
-        <br/>
-        
+    <h3>Dashboard</h3>
+    <table class="table table-bordered table-responsive">
+        <caption>Apostas:</caption>
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Data Final</th>
+                <th>Venceu ?</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="aposta in apostas">
+                <td>{{aposta.descricao}}</td>
+                <td>{{aposta.dateFinalizacao}}</td>
+                <td>-</td>
+                <td>
+                    <!--Aqui vao as acoes -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

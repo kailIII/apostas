@@ -3,7 +3,7 @@ appMain.controller("DashboardController", ["$scope", "Dashboard",
 
                 $scope.init = function () {
                         Dashboard.buscar().then(function (result) {
-                                $scope.msg = result.nome
+                                $scope.apostas = result.lista;
                         }, function (result) {
                                 $scope.msg = result
                         });

@@ -2,6 +2,7 @@ package com.jopss.apostas.servicos.repositorio;
 
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.modelos.Aposta;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,10 @@ public class ApostaRepositorio extends Repositorio {
         @Transactional
         public Aposta salvar(Aposta aposta) throws ApostasException{
                 return super.salvar(aposta);
+        }
+        
+        public List<Aposta> buscarTodos(){
+                return super.buscarTodos(Aposta.class);
         }
         
 }
