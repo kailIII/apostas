@@ -1,6 +1,6 @@
 appMain.controller("ApostaController", ["$scope", "Aposta", "Usuario",
         function ($scope, Aposta, Usuario) {
-                $scope.aposta = {descricao: '', dateFinalizacao: '', palpites: []};
+                $scope.aposta = {descricao: '', dateFinalizacao: null, palpites: []};
                 $scope.palpite = {descricao: '', usuario: ''};
                 
                 $scope.adicionarPalpite = function () {
