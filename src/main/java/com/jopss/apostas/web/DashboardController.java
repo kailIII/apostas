@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/dashboard")
 public class DashboardController extends ApostasController {
 	
+        @RequestMapping(value = "/", method = RequestMethod.GET)
+	public String abrir() {
+		return "dashboard";
+	}
+        
         @ResponseBody
 	@RequestMapping(value = "/apostas/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Usuario abrir(HttpSession session) {

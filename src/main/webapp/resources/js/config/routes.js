@@ -1,11 +1,3 @@
-var appMain = angular.module("appMain", ["ngRoute", "ngResource", "restangular"]);
-
-// CONSTANTES
-appMain.constant("CONST", {
-        CONTEXTO: "http://localhost:8084/pages"
-});
-
-// ROTAS
 appMain.config(["RestangularProvider", "$routeProvider", "CONST", function (RestangularProvider, $routeProvider, CONST) {
 
                 RestangularProvider.setRestangularFields({
@@ -13,23 +5,23 @@ appMain.config(["RestangularProvider", "$routeProvider", "CONST", function (Rest
                 });
 
                 $routeProvider.when("/dashboard/", {
-                        templateUrl: "/views/dashboard.html",
+                        templateUrl: getContextoPages(CONST)+"/dashboard/",
                         controller: "DashboardController"
                 });
 
                 $routeProvider.when("/usuario/", {
-                        templateUrl: "/views/usuario/cadastro.html",
+                        templateUrl: getContextoPages(CONST)+"/usuario/",
                         controller: "UsuarioController"
                 });
 
                 $routeProvider.when("/usuario/:acao", {
-                        templateUrl: "/views/usuario/cadastro.html",
+                        templateUrl: getContextoPages(CONST)+"/usuario/",
                         controller: "UsuarioController"
                 });
 
                 $routeProvider.when("/aposta/", {
-                        templateUrl: "/views/aposta/cadastro.html",
+                        templateUrl: getContextoPages(CONST)+"/aposta/",
                         controller: "ApostaController"
                 });
-        }]);
-
+        }
+]);

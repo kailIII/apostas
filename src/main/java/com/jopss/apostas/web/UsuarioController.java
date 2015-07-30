@@ -14,9 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping(value = "/usuario")
 public class UsuarioController extends ApostasController{
         
-        @RequestMapping(value = "/usuario/salvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String abrir() {
+		return "usuario/cadastro";
+	}
+        
+        @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
 	public Resposta salvar(@RequestBody Usuario usuario, HttpServletResponse resp, HttpSession session) {
                 Resposta resposta = new Resposta();
@@ -34,7 +40,7 @@ public class UsuarioController extends ApostasController{
                 return resposta;
 	}
         
-        @RequestMapping(value = "/usuario/buscar-todos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        @RequestMapping(value = "/todos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
 	public Resposta buscarTodos(HttpServletResponse resp, HttpSession session) {
                 Resposta resposta = new Resposta();
@@ -47,7 +53,7 @@ public class UsuarioController extends ApostasController{
                 return resposta;
 	}
         
-        @RequestMapping(value = "/usuario/buscar-logado", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        @RequestMapping(value = "/logado", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
 	public Resposta buscarLogado(HttpServletResponse resp, HttpSession session) {
                 Resposta resposta = new Resposta();

@@ -1,11 +1,5 @@
-appMain.service("Aposta", ["Restangular", "CONST", function (Restangular, CONST) {
-                this.salvar = function (aposta) {
-                        return Restangular.one("pages/aposta/salvar").customPOST(aposta);
-                };
-        }]);
-
-appMain.controller("ApostaController", ["$scope", "CONST", "Aposta", "Usuario",
-        function ($scope, CONST, Aposta, Usuario) {
+appMain.controller("ApostaController", ["$scope", "Aposta", "Usuario",
+        function ($scope, Aposta, Usuario) {
                 $scope.aposta = {descricao: '', dateFinalizacao: '', palpites: []};
                 $scope.palpite = {descricao: '', usuario: ''};
                 
@@ -41,6 +35,7 @@ appMain.controller("ApostaController", ["$scope", "CONST", "Aposta", "Usuario",
                 }
                 $scope.init();
                 limparMensagens($scope);
-        }]);
+        }
+]);
 
 

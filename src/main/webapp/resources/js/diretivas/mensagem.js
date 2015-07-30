@@ -13,47 +13,14 @@ appMain.directive('mensagem', function () {
                         
                         function addMensagem (msg) {
                                 if (msg != null && ((msg.mensagens != null && msg.mensagens.length > 0) || (msg.mensagem != null && msg.mensagem != ''))) {
-                                        scope.mensagem = '';
                                         if (msg.status == 403) {
-                                                $("#div_mensagem").removeClass();
-                                                $("#div_mensagem").addClass("alert alert-warning");
-                                                var arr = msg.mensagens;
-                                                var txt = msg.mensagem;
-                                                if(arr != null && arr.length > 0){
-                                                        jQuery.each(arr, function (i, msg) {
-                                                                scope.mensagem = scope.mensagem + " " + msg.chave + " - " + msg.valor;
-                                                        });
-                                                }else{
-                                                        scope.mensagem = txt;
-                                                }
+                                                addMsgInterna(scope, msg, "alert-warning", true);
                                         } 
                                         else if (msg.status == 200) {
-                                                $("#div_mensagem").removeClass();
-                                                $("#div_mensagem").addClass("alert alert-success");
-                                                var arr = msg.mensagens;
-                                                var txt = msg.mensagem;
-                                                
-                                                if(arr != null && arr.length > 0){
-                                                        jQuery.each(arr, function (i, msg) {
-                                                                scope.mensagem = scope.mensagem + " " + msg.valor;
-                                                        });
-                                                }else{
-                                                        scope.mensagem = txt;
-                                                }
+                                                addMsgInterna(scope, msg, "alert-success", false);
                                         }
                                         else {
-                                                $("#div_mensagem").removeClass();
-                                                $("#div_mensagem").addClass("alert alert-danger");
-                                                var arr = msg.mensagens;
-                                                var txt = msg.mensagem;
-                                                
-                                                if(arr != null && arr.length > 0){
-                                                        jQuery.each(arr, function (i, msg) {
-                                                                scope.mensagem = scope.mensagem + " " + msg.valor;
-                                                        });
-                                                }else{
-                                                        scope.mensagem = txt;
-                                                }
+                                                addMsgInterna(scope, msg, "alert-danger", false);
                                         }
                                 }
                         };
@@ -66,6 +33,33 @@ appMain.directive('mensagem', function () {
         };
 });
 
+/**
+ * FUNCOES INTERNAS DA DIRECTIVA
+ */
+function addMsgInterna(scope, msg, alertcss, chaveValor){
+        scope.mensagem = '';
+        
+        $("#div_mensagem").removeClass();
+        $("#div_mensagem").addClass("alert "+alertcss);
+        var arr = msg.mensagens;
+        var txt = msg.mensagem;
+
+        if(arr != null && arr.length > 0){
+                jQuery.each(arr, function (i, msg) {
+                        if(chaveValor){
+                                scope.mensagem = scope.mensagem + " " + msg.chave + " - " + msg.valor;
+                        }else{
+                                scope.mensagem = scope.mensagem + " " + msg.valor;
+                        }
+                });
+        }else{
+                scope.mensagem = txt;
+        }
+}
+
+/**
+ * FUNCOES EXTERNAS
+ */
 function addMensagemValidacao($scope, mensagem){
         $scope.mensagem.status = 403;
         $scope.mensagem.mensagem = mensagem;
