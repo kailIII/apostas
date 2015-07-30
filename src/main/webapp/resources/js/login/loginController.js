@@ -3,7 +3,7 @@ var moduloLogin = angular.module("loginApp", ["ngRoute", "ngResource", "restangu
 // CONSTANTES
 moduloLogin.constant("CONST", {
         //CONTEXTO: "http://localhost:8084/pages"
-        CONTEXTO: "pages/"
+        CONTEXTO: ""
 });
 
 // ROTAS
@@ -16,7 +16,7 @@ moduloLogin.config(["RestangularProvider", "$routeProvider", function (Restangul
 
 moduloLogin.service("Login", ["Restangular", "CONST", function (Restangular, CONST) {
                 this.logar = function (usuario) {
-                        return Restangular.all( CONST.CONTEXTO+"/login").customPOST(usuario);
+                        return Restangular.all( CONST.CONTEXTO+"pages/login").customPOST(usuario);
                 };
         }
 ]);
@@ -29,7 +29,7 @@ moduloLogin.controller("LoginController", ["$scope", "CONST", "Login",
                 $scope.logar = function () {
                         $scope.mensagemErro = ""
                         Login.logar($scope.usuario).then(function (data) {
-                                window.location.href = CONST.CONTEXTO+"/principal/";
+                                window.location.href = CONST.CONTEXTO+"/pages/principal/";
                         }, function (data) {
                                 $scope.mensagemErro = "Usuário ou senha inválido."
                         });

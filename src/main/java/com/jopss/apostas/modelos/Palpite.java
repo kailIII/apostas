@@ -1,5 +1,6 @@
 package com.jopss.apostas.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.servicos.repositorio.PalpiteRepositorio;
 import com.jopss.apostas.util.Modelos;
@@ -34,6 +35,7 @@ public class Palpite extends Modelos {
         
         @NotNull
         @ManyToOne
+        @JsonIgnore
         private Aposta aposta;
 
         public Palpite() {

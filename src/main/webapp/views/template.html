@@ -27,12 +27,17 @@
                     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
                 <![endif]-->
 
+                <link href="/resources/css/jquery-ui.min.css" rel="stylesheet"/>
+                
+                <script src="/resources/js/jquery-1.11.3.min.js"></script>
+                <script src="/resources/js/jquery-ui.min.js"></script>
+                <script src="/resources/js/datepicker-pt-BR.js"></script>
+                
                 <script src="/resources/js/angular.min.js"></script>
                 <script src="/resources/js/angular-route.js"></script>
                 <script src="/resources/js/angular-resource.js"></script>
                 <script src="/resources/js/restangular.js"></script>
                 <script src="/resources/js/underscore.js"></script>
-                <script src="/resources/js/jquery.min.js"></script>
                 
                 <script src="/resources/js/config/appMain.js"></script>
                 <script src="/resources/js/config/routes.js"></script>
@@ -50,7 +55,6 @@
                 
                 <!-- Configurações padrões para bibliotecas -->
                 <script type="text/javascript">
-
                         $.ajaxSetup({
                                 cache: false
                         });
@@ -63,10 +67,6 @@
                                         }
                                         return true;
                                 });
-                        });
-
-                        $(document).ready(function () {
-
                         });
                 </script>
         </head>
@@ -129,16 +129,8 @@
 
                 </div>      
 
-                <!-- jQuery -->
-                <script src="/template/bower_components/jquery/dist/jquery.min.js"></script>
-
-                <!-- Bootstrap Core JavaScript -->
                 <script src="/template/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-                <!-- Metis Menu Plugin JavaScript -->
                 <script src="/template/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-                <!-- Custom Theme JavaScript -->
                 <script src="/template/dist/js/sb-admin-2.js"></script>
         </body>
 </html>

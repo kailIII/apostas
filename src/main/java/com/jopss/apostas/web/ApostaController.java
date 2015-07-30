@@ -16,19 +16,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping(value = "/aposta")
 public class ApostaController extends ApostasController {
 
-        @RequestMapping(value = "/aposta/salvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+        @RequestMapping(value = "/", method = RequestMethod.GET)
+	public String abrir() {
+		return "aposta/cadastro";
+	}
+        
+        @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
         public Resposta salvar(@RequestBody Aposta aposta, HttpServletResponse resp, HttpSession session) {
                 Resposta resposta = new Resposta();
                 try {
-                        List<Palpite> palpites = aposta.getPalpites();
-                        for(Palpite palpite : palpites  ){
-                                palpite.setAposta(aposta);
-                        }
-                        aposta.salvar();
-
+                        aposta = aposta.salvar();
+                        resposta.setModelo(aposta, resp);
+                        
                 } catch (TransactionSystemException ex) {
                         log.error(ex);
                         resposta.addErros(ex, resp);

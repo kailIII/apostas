@@ -3,9 +3,9 @@ var appMain = angular.module("appMain", ["ngRoute", "ngResource", "restangular"]
 // CONSTANTES
 appMain.constant("CONST", {
         //CONTEXTO: "http://localhost:8084/pages"
-        CONTEXTO: "/pages"
+        CONTEXTO: ""
 });
 
-function getContextoPages(constant){
+function getContexto(constant){
         return constant.CONTEXTO;
 }

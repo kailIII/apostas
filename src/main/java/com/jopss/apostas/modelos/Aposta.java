@@ -1,5 +1,6 @@
 package com.jopss.apostas.modelos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.servicos.repositorio.ApostaRepositorio;
 import com.jopss.apostas.util.Modelos;
@@ -10,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -35,6 +35,7 @@ public class Aposta extends Modelos {
         @Future
         @NotNull
         @Temporal(TemporalType.DATE)
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
         private Date dateFinalizacao;
         
         @OneToMany(mappedBy = "aposta", orphanRemoval = true, cascade = CascadeType.ALL)
@@ -53,6 +54,9 @@ public class Aposta extends Modelos {
 	}
         
         public Aposta salvar() throws ApostasException{
+                for(Palpite palpite : this.getPalpites()  ){
+                        palpite.setAposta(this);
+                }
                 return this.getRepositorio().salvar(this);
         }
         

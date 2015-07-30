@@ -21,6 +21,11 @@ public class GenericController extends ApostasController {
 	//-------------------------------------------------------
 	// ACESSOS PUBLICOS
 	//-------------------------------------------------------
+        @RequestMapping(value = "/login/", method = RequestMethod.GET)
+	public String abrirLogin() {
+		return "login";
+	}
+        
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
 	public void login(@RequestBody Usuario usuario, HttpServletResponse resp, HttpSession session) {
@@ -36,6 +41,4 @@ public class GenericController extends ApostasController {
 	public String abrir() {
 		return "template";
 	}
-        
-        
 }

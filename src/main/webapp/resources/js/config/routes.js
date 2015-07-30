@@ -5,22 +5,22 @@ appMain.config(["RestangularProvider", "$routeProvider", "CONST", function (Rest
                 });
 
                 $routeProvider.when("/dashboard/", {
-                        templateUrl: getContextoPages(CONST)+"/dashboard/",
+                        templateUrl: getContexto(CONST)+"/pages/dashboard/",
                         controller: "DashboardController"
                 });
 
                 $routeProvider.when("/usuario/", {
-                        templateUrl: getContextoPages(CONST)+"/usuario/",
+                        templateUrl: getContexto(CONST)+"/pages/usuario/",
                         controller: "UsuarioController"
                 });
 
                 $routeProvider.when("/usuario/:acao", {
-                        templateUrl: getContextoPages(CONST)+"/usuario/",
+                        templateUrl: getContexto(CONST)+"/pages/usuario/",
                         controller: "UsuarioController"
                 });
 
                 $routeProvider.when("/aposta/", {
-                        templateUrl: getContextoPages(CONST)+"/aposta/",
+                        templateUrl: getContexto(CONST)+"/pages/aposta/",
                         controller: "ApostaController"
                 });
         }

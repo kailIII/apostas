@@ -12,11 +12,11 @@
                         </div>
                         <div class="form-group col-md-12">
                                 <label>Data Final</label>
-                                <input class="form-control" placeholder="Data Final" name="dateFinalizacao" type="date" ng-model="aposta.dateFinalizacao" required>
+                                <input class="form-control datepicker" placeholder="Data Final" id="dateFinalizacao" name="dateFinalizacao" type="text" ng-model="aposta.dateFinalizacao" required>
                                 <span ng-class="error" ng-show="apostaForm.dateFinalizacao.$error.required && apostaForm.dateFinalizacao.$dirty">Date Final é obrigatória</span>
                         </div>
                 </fieldset>
-                
+
                 <h3>Pessoas</h3>
                 <fieldset>
                         <div class="form-group col-md-12">
@@ -24,19 +24,19 @@
                                         <option value="">Selecione...</option>
                                 </select>
                         </div>
-                        
+
                         <div class="form-group col-md-12">
                                 <label class="control-label">Palpite</label>
                                 <input class="form-control" placeholder="Palpite" name="palpite_descricao" type="text" autofocus ng-model="palpite.descricao">
                         </div>
-                        
+
                         <div class="form-group col-md-5" >
                         </div>
                         <div class="form-group col-md-2" >
                                 <input type="button" class="btn btn-lg btn-primary btn-block" value="Adicionar Palpite" ng-click="adicionarPalpite()">
                         </div>
                 </fieldset>
-                
+
                 <table class="table table-bordered">
                         <thead>
                                 <tr>
@@ -56,7 +56,7 @@
                                 </tr>
                         </tbody>
                 </table>
-                
+
                 <fieldset>
                         <div class="form-group col-md-5" >
                         </div>
@@ -65,4 +65,10 @@
                         </div>
                 </fieldset>
         </form>
+        
+        <script>
+                $(document).ready(function () {
+                        $(".datepicker").datepicker();
+                });
+        </script>
 </div>

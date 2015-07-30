@@ -61,21 +61,25 @@ function addMsgInterna(scope, msg, alertcss, chaveValor){
  * FUNCOES EXTERNAS
  */
 function addMensagemValidacao($scope, mensagem){
+        limparMensagens($scope);
         $scope.mensagem.status = 403;
         $scope.mensagem.mensagem = mensagem;
 }
 
 function addMensagemSucesso($scope, mensagem){
+        limparMensagens($scope);
         $scope.mensagem.status = 200;
         $scope.mensagem.mensagem = mensagem;
 }
 
 function addMensagemErro($scope, mensagem){
+        limparMensagens($scope);
         $scope.mensagem.status = 500;
         $scope.mensagem.mensagem = mensagem;
 }
 
 function addMensagemRetornoValidacao($scope, result){
+        limparMensagens($scope);
         $scope.mensagem.status = result.status;
         if(result.status == 404){
                 $scope.mensagem.mensagem = "404 - Recurso nao encontrado. Verifique com o RH.";
