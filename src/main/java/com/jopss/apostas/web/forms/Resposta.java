@@ -68,7 +68,7 @@ public class Resposta implements Serializable{
         }
         
         /**
-         * Adiciona qualquer mensagem de validacao generada apartir do nao cumprimento de regras de negocio.
+         * Adiciona qualquer mensagem de validacao gerada a partir do nao cumprimento de regras de negocio.
          * 
          * @param ex ApostasException
          * @param resp HttpServletResponse
