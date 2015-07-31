@@ -1,7 +1,7 @@
 package com.jopss.apostas.web.util;
 
 import com.jopss.apostas.modelos.Usuario;
-import com.jopss.apostas.security.SessionUserSupport;
+import com.jopss.apostas.servicos.security.SessionUserSupport;
 import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.NumbersUtils;
 import com.jopss.apostas.servicos.ParametrosSistema;

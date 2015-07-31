@@ -1,4 +1,4 @@
-package com.jopss.apostas.security;
+package com.jopss.apostas.servicos.security;
 
 import com.jopss.apostas.modelos.Usuario;
 import org.springframework.security.core.userdetails.UserDetails;

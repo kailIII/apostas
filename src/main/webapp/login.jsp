@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html ng-app="loginApp" lang="en">
         <head>
@@ -27,21 +29,17 @@
                     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
                     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
                 <![endif]-->
-
-                <script src="/resources/js/angular.min.js"></script>
-                <script src="/resources/js/angular-route.js"></script>
-                <script src="/resources/js/angular-resource.js"></script>
-                <script src="/resources/js/restangular.js"></script>
-                <script src="/resources/js/underscore.js"></script>
-                <script src="/resources/js/jquery.min.js"></script>
                 
-                <script src="/resources/js/login/loginController.js"></script>
         </head>
         <body>
-                <div class="container" ng-controller="LoginController">
+                <div class="container">
                         <div class="row">
                                 <div class="col-md-12" style="text-align: center">
-                                        {{mensagemErro}}   
+                                    <c:if test="${not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}" >
+                                        <div class="errorHandler alert alert-danger">
+                                                <i class="fa fa-remove-sign"></i> ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+                                        </div>
+                                    </c:if>
                                 </div>
                         </div>
                         <div class="row">
@@ -51,17 +49,15 @@
                                                         <h3 class="panel-title">Entre com seu Login</h3>
                                                 </div>
                                                 <div class="panel-body">
-                                                        <form role="form" name="loginForm" ng-submit="logar()">
+                                                    <form role="form" name="loginForm" action="j_spring_security_check" method="post">
                                                                 <fieldset>
                                                                         <div class="form-group">
-                                                                                <input class="form-control" placeholder="Login" name="login" type="login" autofocus ng-model="usuario.login" required>
-                                                                                <span ng-class="error" ng-show="loginForm.login.$error.required  && loginForm.login.$dirty">Login é obrigatório</span>
+                                                                                <input id="usuarioForm" class="form-control" placeholder="Login" name="j_username" maxlength="30" type="text" autofocus/>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                                <input class="form-control" placeholder="Password" name="password" type="password" value="" ng-model="usuario.senha" required>
-                                                                                <span ng-class="error" ng-show="loginForm.password.$error.required && loginForm.password.$dirty">Senha é obrigatório</span>
+                                                                            <input id="senhaHidden" class="form-control" placeholder="Senha" name="j_password" maxlength="30" type="password"/>
                                                                         </div>
-                                                                        <input type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg btn-success btn-block" value="Vai">
+                                                                        <input type="submit" class="btn btn-lg btn-success btn-block" value="Vai">
                                                                 </fieldset>
                                                         </form>
                                                 </div>

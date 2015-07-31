@@ -14,11 +14,6 @@ public class GenericController extends ApostasController {
 	//-------------------------------------------------------
 	// ACESSOS PUBLICOS
 	//-------------------------------------------------------
-        @RequestMapping(value = "/login/", method = RequestMethod.GET)
-	public String abrirLogin() {
-		return "login";
-	}
-        
 	@RequestMapping(value = "/principal/", method = RequestMethod.GET)
 	public String abrir() {
 		return "template";

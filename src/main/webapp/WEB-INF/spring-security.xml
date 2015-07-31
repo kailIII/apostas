@@ -11,13 +11,12 @@
 	<security:http pattern="/views/**"			security="none" />
 	<security:http pattern="/favicon.ico"			security="none" />
 	<security:http pattern="/index.html*"			security="none" />
+	<security:http pattern="/login.jsp*"			security="none" />
     
 	<security:http  auto-config="true" access-denied-page="/access_denied.html">
-		<security:form-login login-page="/pages/login/" default-target-url="/pages/principal/" authentication-failure-url="/pages/login/" authentication-success-handler-ref="authenticationSuccessHandler" />
-		<security:logout logout-url="/pages/logout/" logout-success-url="/pages/login/" />
-        
-		<security:intercept-url pattern="/pages/login/"        			access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<security:intercept-url pattern="/pages/*"                              access="ROLE_LOGGED" />
+		<security:form-login login-page="/login.jsp" default-target-url="/pages/principal/" authentication-failure-url="/login.jsp" authentication-success-handler-ref="authenticationSuccessHandler" />
+
+		<security:intercept-url pattern="/pages/**"                                     access="ROLE_LOGADO" />
 	</security:http>
     
 	<bean id="baseTransactionProxy" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
@@ -31,13 +30,13 @@
     
 	<bean id="authenticationSuccessHandler" parent="baseTransactionProxy">
 		<property name="target">
-			<bean  class="com.jopss.apostas.security.CustomAuthenticationSuccessFilter" >
+			<bean  class="com.jopss.apostas.servicos.security.CustomAuthenticationSuccessFilter" >
 				<property name="defaultTargetUrl" value="/pages/principal/" />
 			</bean>
 		</property>
 	</bean>
     
-	<bean id="customUserDetailService" class="com.jopss.apostas.security.CustomUserDetailService" />
+	<bean id="customUserDetailService" class="com.jopss.apostas.servicos.security.CustomUserDetailService" />
     
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider user-service-ref="customUserDetailService" >

@@ -14,8 +14,8 @@ appMain.controller("DashboardController", ["$scope", "$location", "Aposta",
                         $location.path("/aposta/").search({id: id});
                 };
 
-                $scope.init = function () {
-                        Aposta.buscar().then(function (result) {
+                $scope.init = function (pagina) {
+                        Aposta.buscar(pagina).then(function (result) {
                                 $scope.apostas = result.lista;
                         }, function (result) {
                                 $scope.msg = result
