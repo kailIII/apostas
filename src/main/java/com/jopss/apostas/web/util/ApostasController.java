@@ -1,9 +1,9 @@
 package com.jopss.apostas.web.util;
 
 import com.jopss.apostas.modelos.Usuario;
+import com.jopss.apostas.security.SessionUserSupport;
 import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.NumbersUtils;
-import com.jopss.apostas.servicos.SessaoUsuario;
 import com.jopss.apostas.servicos.ParametrosSistema;
 import com.jopss.apostas.util.ValidatorUtil;
 import java.math.BigDecimal;
@@ -25,7 +25,7 @@ public abstract class ApostasController {
 	protected Logger log = Logger.getLogger(this.getClass());
 	
 	@Autowired
-	protected SessaoUsuario sessaoUsuario;
+	protected SessionUserSupport sessionUserSupport;
 	
         @Autowired
         protected ParametrosSistema parametrosSistema;

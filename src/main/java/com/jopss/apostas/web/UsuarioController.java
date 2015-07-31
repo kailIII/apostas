@@ -58,7 +58,7 @@ public class UsuarioController extends ApostasController{
 	public Resposta buscarLogado(HttpServletResponse resp, HttpSession session) {
                 Resposta resposta = new Resposta();
                 try {
-                        resposta.setModelo(super.sessaoUsuario.getUsuarioLogado(session), resp);
+                        resposta.setModelo(super.sessionUserSupport.getUsuarioLogado(), resp);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);

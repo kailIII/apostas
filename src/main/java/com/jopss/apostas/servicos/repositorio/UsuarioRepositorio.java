@@ -11,20 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class UsuarioRepositorio extends Repositorio {
         
-        public Usuario buscarPorLoginESenha(String login, String senha){
-                TypedQuery<Usuario> q = getEntityManagerMain().createQuery("FROM Usuario WHERE login = :login AND senha = :senha", Usuario.class);
+        public Usuario buscarPorId(Long id) {
+		return super.buscarPorId(Usuario.class, id);
+	}
+        
+        public Usuario buscarPorLogin(String login) {
+		TypedQuery<Usuario> q = getEntityManagerMain().createQuery("FROM Usuario WHERE login = :login", Usuario.class);
                 q.setParameter("login", login);
-                q.setParameter("senha", senha);
                 
                 try{
                         return q.getSingleResult();
                 }catch(NoResultException ex){
                         return null;
                 }
-        }
-        
-        public Usuario buscarPorId(Long id) {
-		return super.buscarPorId(Usuario.class, id);
 	}
         
         public List<Usuario> buscarTodos(){

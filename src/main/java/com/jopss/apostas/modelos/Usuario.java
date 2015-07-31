@@ -1,7 +1,6 @@
 package com.jopss.apostas.modelos;
 
 import com.jopss.apostas.excecoes.ApostasException;
-import com.jopss.apostas.excecoes.LoginInvalidoException;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepositorio;
 import com.jopss.apostas.util.Modelos;
 import java.util.List;
@@ -42,6 +41,10 @@ public class Usuario extends Modelos {
         public Usuario(Long id) {
                 this.id = id;
         }
+
+        public Usuario(String login) {
+                this.login = login;
+        }
         
         @Override
         protected UsuarioRepositorio getRepositorio(){
@@ -52,17 +55,12 @@ public class Usuario extends Modelos {
 		return this.getRepositorio().buscarPorId(this.getId());
 	}
         
-        public List<Usuario> buscarTodos(){
-                return this.getRepositorio().buscarTodos();
+        public Usuario buscarPorLogin(){
+                return this.getRepositorio().buscarPorLogin(login);
         }
         
-        public Usuario autenticar() throws LoginInvalidoException {
-                Usuario usuarioBase =  this.getRepositorio().buscarPorLoginESenha(this.login, this.senha);
-                if(usuarioBase != null){
-                        return usuarioBase;
-                }else{
-                        throw new LoginInvalidoException();
-                }
+        public List<Usuario> buscarTodos(){
+                return this.getRepositorio().buscarTodos();
         }
         
         /**
