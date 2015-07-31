@@ -3,10 +3,14 @@ package com.jopss.apostas.testes.modelos;
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.excecoes.DataNaoPermitidaException;
 import com.jopss.apostas.modelos.Aposta;
+import com.jopss.apostas.modelos.Palpite;
 import com.jopss.apostas.servicos.repositorio.ApostaRepositorio;
+import java.util.ArrayList;
 import java.util.Date;
 import org.joda.time.DateTime;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ApostaTeste {
         
@@ -15,29 +19,32 @@ public class ApostaTeste {
                 Aposta aposta = new Aposta();
                 aposta.setId(1L);
                 aposta.setDateFinalizacao(new Date(1L));
+                aposta.setPalpites(new ArrayList<Palpite>());
+                mockarApostaRepositorio(aposta);
                 
                 aposta.salvar();
-                
         }
         
-        @Test(expected = DataNaoPermitidaException.class)
+        @Test
         public void tentarSalvarAntesDataFinalizacao() throws ApostasException{
                 Aposta aposta = new Aposta();
                 aposta.setId(1L);
                 aposta.setDateFinalizacao((new DateTime()).plusDays(1).toDate());
+                aposta.setPalpites(new ArrayList<Palpite>());
+                mockarApostaRepositorio(aposta);
                 
                 aposta.salvar();
-                
         }
         
-        private ApostaRepositorio mockarApostaRepositorio(){
+        private void mockarApostaRepositorio(Aposta aposta) throws ApostasException{
                 
                 Aposta apostaMockado = new Aposta();
                 apostaMockado.setId(1L);
-                apostaMockado.setDateFinalizacao(new Date(1L));
-
                 
-                return null;
+                ApostaRepositorio repoMock = mock(ApostaRepositorio.class);
+                when(repoMock.salvar(aposta)).thenReturn(apostaMockado);
+                
+                aposta.setRepositorio(repoMock);
         }
         
 }
