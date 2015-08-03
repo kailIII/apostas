@@ -2,6 +2,7 @@ package com.jopss.apostas.web;
 
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.modelos.Aposta;
+import com.jopss.apostas.web.form.ApostaForm;
 import com.jopss.apostas.web.forms.Resposta;
 import com.jopss.apostas.web.util.ApostasController;
 import javax.servlet.http.HttpServletResponse;
@@ -84,6 +85,19 @@ public class ApostaController extends ApostasController {
                 try{
                         
                         resposta.setLista((new Aposta()).buscarTodos(), resp);
+                } catch (Exception ex) {
+                        log.error(ex);
+                        resposta.addErroGenerico(ex, resp);
+                }
+                return resposta;
+	}
+        
+        @ResponseBody
+        @RequestMapping(value = "/apostas/pagina", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resposta buscarPaginaAtual(@RequestBody ApostaForm form, HttpServletResponse resp) {
+                Resposta resposta = new Resposta();
+                try{
+                        resposta.setLista((new Aposta()).buscarRegistroPaginado(form), resp);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);

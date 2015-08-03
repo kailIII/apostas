@@ -1,4 +1,4 @@
-appMain.directive('datepicker', function() {
+appMain.directive('dattt', function() {
     return {
         restrict: 'A',
         require : 'ngModel',

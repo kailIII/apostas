@@ -16,7 +16,7 @@ public class UsuarioRepositorio extends Repositorio {
 	}
         
         public Usuario buscarPorLogin(String login) {
-		TypedQuery<Usuario> q = getEntityManagerMain().createQuery("FROM Usuario WHERE login = :login", Usuario.class);
+		TypedQuery<Usuario> q = getEntityManager().createQuery("FROM Usuario WHERE login = :login", Usuario.class);
                 q.setParameter("login", login);
                 
                 try{

@@ -1,30 +1,42 @@
-<div ng-controller="DashboardController " >
-        <mensagem valor="mensagem"></mensagem>
-        <br />
-        <h3>Dashboard</h3>
-        <table class="table table-bordered table-responsive">
-                <caption>Apostas:</caption>
-                <thead>
-                        <tr>
-                                <th>Descrição</th>
-                                <th>Data Final</th>
-                                <th>Venceu ?</th>
-                                <th>Ações</th>
-                        </tr>
-                </thead>
-                <tbody>
-                        <tr ng-repeat="aposta in apostas">
-                                <td>{{aposta.descricao}}</td>
-                                <td>{{aposta.dateFinalizacao | date:'dd/MM/yyyy'}}</td>
-                                <td>-</td>
-                                <td>
-                                        <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="editar(aposta.id)"/>
-                                        <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="deletar(aposta.id)"/>
-                                </td>
-                        </tr>
-                </tbody>
-        </table>
-        <div ng-controller="PaginationController">
-            <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+<div ng-controller="DashboardController" >
+    <mensagem valor="mensagem"></mensagem>
+    <br />
+    <h3>Dashboard</h3>
+    <form role="form" name="aposta-form" ng-submit="buscar()">
+        <div class="form-group col-md-5" >
+            <input class="form-control" dattt placeholder="Data Inicial" name="dataInicial" type="text" ng-model="apostaForm.dataInicial" required />
         </div>
+        <div class="form-group col-md-5" >
+            <input class="form-control" dattt placeholder="Data Final" name="dataFinal" type="text" ng-model="apostaForm.dataFinal" required />
+        </div>
+        <div class="form-group col-md-4" ></div>
+            <div class="form-group col-md-2" >
+                <input type="submit" class="btn btn-lg btn-success btn-large" value="Filtrar" />
+            </div>
+    </form>
+    <table id="table_apostas" class="table table-bordered table-responsive">
+        <caption>Apostas:</caption>
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Data Final</th>
+                <th>Venceu ?</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="aposta in apostas">
+                <td>{{aposta.descricao}}</td>
+                <td>{{aposta.dateFinalizacao| date:'dd/MM/yyyy'}}</td>
+                <td>-</td>
+                <td>
+                    <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="editar(aposta.id)"/>
+                    <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="deletar(aposta.id)"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div ng-show="apostas.length > 0">
+        <pagination boundary-links="true" items-per-page="apostaForm.quantidadeRegistro" total-items="totalItems" ng-model="apostaForm.paginaAtual" max-size="maxSize" class="pagination-sm paginate_button" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    </div>
 </div>

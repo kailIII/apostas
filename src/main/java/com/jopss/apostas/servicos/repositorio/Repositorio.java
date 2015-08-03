@@ -14,14 +14,6 @@ public abstract class Repositorio implements Serializable {
         protected static final Logger logger = Logger.getLogger(Repositorio.class);
         private static final long serialVersionUID = -1340481266616282366L;
 
-        protected static EntityManager getEntityManagerMain() {
-                EntityManager em = AppContextUtil.getApplicationContext().getBean(ConnectionFactory.class).getEmMain();
-                if (em == null) {
-                        throw new RuntimeException("EntityManager esta nulo. Verifique a configuracao do hibernate/spring.");
-                }
-                return em;
-        }
-
         protected EntityManager getEntityManager() {
                 EntityManager em = AppContextUtil.getApplicationContext().getBean(ConnectionFactory.class).getEmMain();
                 if (em == null) {
@@ -32,7 +24,7 @@ public abstract class Repositorio implements Serializable {
 
         protected <E> E salvar(Modelos modelo) throws ApostasException {
                 try {
-                        return (E) getEntityManagerMain().merge(modelo);
+                        return (E) getEntityManager().merge(modelo);
                 } catch (Exception ex) {
                         throw new ApostasException(ex);
                 }
@@ -41,7 +33,7 @@ public abstract class Repositorio implements Serializable {
         protected void remover(Modelos modelo) throws ApostasException {
                 try {
 
-                        EntityManager em = getEntityManagerMain();
+                        EntityManager em = getEntityManager();
                         em.remove( salvar(modelo) );
 
                 } catch (Exception ex) {
@@ -69,7 +61,7 @@ public abstract class Repositorio implements Serializable {
 
         private EntityManager selecionarEntityManager(EntityManager... entityManagers) {
                 if (entityManagers == null || entityManagers.length == 0) {
-                        return getEntityManagerMain();
+                        return getEntityManager();
                 }
                 return entityManagers[0];
         }

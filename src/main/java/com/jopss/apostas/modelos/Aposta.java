@@ -9,6 +9,7 @@ import com.jopss.apostas.util.DateUtilsApostas;
 import com.jopss.apostas.util.JsonDateDeserializer;
 import com.jopss.apostas.util.JsonDateSerializer;
 import com.jopss.apostas.util.Modelos;
+import com.jopss.apostas.web.form.ApostaForm;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -66,6 +67,12 @@ public class Aposta extends Modelos {
         public List<Aposta> buscarTodos(){
                 return this.getRepositorio().buscarTodos();
         }
+        
+        public List<Aposta> buscarRegistroPaginado(ApostaForm form){
+                return this.getRepositorio().buscaPaginada(form);
+        }
+        
+        
         
         public Aposta salvar() throws ApostasException{
                 
