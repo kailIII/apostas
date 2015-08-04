@@ -1,6 +1,6 @@
 INSERT INTO usuario(
             id, datacriacao, dataatualizacao, nome, login, senha)
-    VALUES (1, '2015-07-28', null, 'Administrador :)', 'admin', 'admin');
+    VALUES (1, '2015-07-28', null, 'Administrador :)', 'admin', '21232f297a57a5a743894a0e4a801fc3');
 
 CREATE TABLE hibernate_sequences(
 	sequence_name varchar(255) NOT NULL,
