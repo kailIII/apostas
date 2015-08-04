@@ -1,4 +1,4 @@
-var appMain = angular.module("appMain", ["ngRoute", "ngResource", "restangular", "ui.bootstrap"]);
+var appMain = angular.module("appMain", ["ngRoute", "ngCookies", "ngResource", "restangular", "ui.bootstrap"]);
 
 // CONSTANTES
 appMain.constant("CONST", {
