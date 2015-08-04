@@ -28,37 +28,39 @@
                 <![endif]-->
 
                 <link href="/resources/css/jquery-ui.min.css" rel="stylesheet"/>
-                
+
                 <script src="/resources/js/jquery-1.11.3.min.js"></script>
                 <script src="/resources/js/jquery-ui.min.js"></script>
                 <script src="/resources/js/datepicker-pt-BR.js"></script>
-              
+
                 <script src="/template/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
                 <script src="/template/bower_components/metisMenu/dist/metisMenu.min.js"></script>
                 <script src="/template/dist/js/sb-admin-2.js"></script>
-                
+
                 <script src="/resources/js/angular.min.js"></script>
                 <script src="/resources/js/angular-resource.js"></script>
                 <script src="/resources/js/angular-route.js"></script>
+                <script src="/resources/js/angular-cookies.min.js"></script>
                 <script src="/resources/js/underscore.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/restangular/1.4.0/restangular.js"></script>
-                <!--<script src="/resources/js/restangular.js"></script>-->
+                <script src="/resources/js/restangular.js"></script>
                 <script src="/resources/js/ui-bootstrap-tpls-0.13.1.min.js"></script>
-                
+
                 <script src="/resources/js/config/appMain.js"></script>
                 <script src="/resources/js/config/routes.js"></script>
-                
+
                 <script src="/resources/js/diretivas/mensagem.js"></script>
                 <script src="/resources/js/diretivas/datepicker.js"></script>
-                
+
                 <script src="/resources/js/services/apostaService.js"></script>
                 <script src="/resources/js/services/usuarioService.js"></script>
-                
+                <script src="/resources/js/services/loginService.js"></script>
+
                 <script src="/resources/js/controller/appController.js"></script>
                 <script src="/resources/js/controller/dashboardController.js"></script>
                 <script src="/resources/js/controller/usuarioController.js"></script>
                 <script src="/resources/js/controller/apostaController.js"></script>
-                
+                <script src="/resources/js/controller/loginController.js"></script>
+
                 <!-- Configurações padrões para bibliotecas -->
                 <script type="text/javascript">
                         $.ajaxSetup({
@@ -87,7 +89,9 @@
                                                 <span class="icon-bar"></span>
                                                 <span class="icon-bar"></span>
                                         </button>
-                                        <a class="navbar-brand" href="/index.jsp">Logo do Sistema</a>
+                                        <a class="navbar-brand" href="#/dashboard" style="font-size: 14;font-weight: bold;">
+                                                <img src="/resources/img/trevo.png" height="30px" style="display:inline;margin-right: 5px;" />Apostas
+                                        </a>
                                 </div>
 
                                 <ul class="nav navbar-top-links navbar-right">
@@ -134,6 +138,41 @@
                         </div>
 
                 </div>      
-
+                <div id="login_modal" class="modal fade">
+                        <div class="modal-dialog">
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Por favor, logue-se novamente.</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                                <div class="row">
+                                                        <div class="col-md-12" ng-controller="LoginController">
+                                                                <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                                <h3 class="panel-title">Entre com seu Login</h3>
+                                                                        </div>
+                                                                        <div class="panel-body">
+                                                                                <form role="form" name="loginForm" ng-submit="logar()">
+                                                                                        <fieldset>
+                                                                                                <div class="form-group">
+                                                                                                        <input id="usuarioForm" class="form-control" placeholder="Login" name="j_username" maxlength="30" type="text" autofocus ng-model="login.j_username" required/>
+                                                                                                        <span ng-class="error" ng-show="login.j_username.$error.required && login.j_username.$dirty">Login é obrigatório</span>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                        <input id="senhaHidden" class="form-control" placeholder="Senha" name="j_password" maxlength="30" type="password" ng-model="login.j_password" required/>
+                                                                                                        <span ng-class="error" ng-show="login.j_password.$error.required && login.j_password.$dirty">Senha é obrigatória</span>
+                                                                                                </div>
+                                                                                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Vai">
+                                                                                        </fieldset>
+                                                                                </form>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
         </body>
 </html>
