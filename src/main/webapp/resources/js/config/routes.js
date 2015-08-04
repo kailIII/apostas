@@ -1,7 +1,7 @@
 appMain.config(["RestangularProvider", "$routeProvider", "CONST", function (RestangularProvider, $routeProvider, CONST) {
 
-        RestangularProvider.setRestangularFields({
-            id: "id"
+        RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+            return data;
         });
 
         $routeProvider.when("/dashboard/", {

@@ -3,6 +3,7 @@ package com.jopss.apostas.web.forms;
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.Modelos;
+import com.jopss.apostas.web.form.PaginacaoForm;
 import java.io.Serializable;
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Resposta implements Serializable{
         
         private Modelos modelo;
         private List lista;
+        private PaginacaoForm form;
         private List<Retorno> mensagens;
 
         public void setModelo(Modelos modelo, HttpServletResponse resp) {
@@ -39,6 +41,12 @@ public class Resposta implements Serializable{
         
         public void setLista(List lista, HttpServletResponse resp, String msg) {
                 this.lista = lista;
+                resp.setStatus(HTTP_STATUS_SUCCESS);
+                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
+        }
+        
+        public void setForm(PaginacaoForm form, HttpServletResponse resp, String msg) {
+                this.form = form;
                 resp.setStatus(HTTP_STATUS_SUCCESS);
                 getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
         }
@@ -113,6 +121,16 @@ public class Resposta implements Serializable{
         public List<Modelos> getLista() {
                 return lista;
         }
+
+        public PaginacaoForm getForm() {
+                return form;
+        }
+        
+        public void setForm(PaginacaoForm form) {
+                this.form = form;
+        }
+
+        
         
         /**
          * Indica campos ou chaves com seus respectivos valores sobre erros e validacoes.

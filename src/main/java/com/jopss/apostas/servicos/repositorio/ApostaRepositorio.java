@@ -47,13 +47,21 @@ public class ApostaRepositorio extends Repositorio {
         @Transactional
         public List<Aposta> buscaPaginada(ApostaForm form) {
                 StringBuilder sb = new StringBuilder("FROM Aposta a");
-                sb.append(" WHERE ");
-                sb.append("a.dateFinalizacao < :dataFinal ");
-                sb.append(" AND a.dateFinalizacao > :dataInicial ");
-                
+                boolean contemDatas = (form.getDataInicial() != null) && (form.getDataFinal() != null);
+                if (contemDatas) {
+                        sb.append(" WHERE ");
+                        sb.append("a.dateFinalizacao < :dataFinal ");
+                        sb.append(" AND a.dateFinalizacao > :dataInicial ");
+                }
+                sb.append(" ORDER BY a.dateFinalizacao DESC ");
+
                 Query query = getEntityManager().createQuery(sb.toString());
-                query.setParameter("dataFinal", form.getDataFinal());
-                query.setParameter("dataInicial", form.getDataInicial());
+
+                if (contemDatas) {
+                        query.setParameter("dataFinal", form.getDataFinal());
+                        query.setParameter("dataInicial", form.getDataInicial());
+                }
+
                 int inicio = form.getPaginaAtual() * form.getQuantidadeRegistro() - form.getQuantidadeRegistro();
                 query.setFirstResult(inicio);
                 query.setMaxResults(form.getQuantidadeRegistro());
@@ -61,24 +69,31 @@ public class ApostaRepositorio extends Repositorio {
                 for (Aposta aposta : apostas) {
                         Hibernate.initialize(aposta.getPalpites());
                 }
-                
+
                 form.setTotalRegistros(countRegistros(form));
-                
+
                 return apostas;
         }
-        
+
         @Transactional
-        public int countRegistros(ApostaForm form) {
+        public Long countRegistros(ApostaForm form) {
                 StringBuilder sb = new StringBuilder("SELECT COUNT (a) FROM Aposta a");
-                sb.append(" WHERE ");
-                sb.append("a.dateFinalizacao < :dataFinal ");
-                sb.append(" AND a.dateFinalizacao > :dataInicial ");
-                
+
+                boolean contemDatas = (form.getDataInicial() != null) && (form.getDataFinal() != null);
+                if (contemDatas) {
+                        sb.append(" WHERE ");
+                        sb.append("a.dateFinalizacao < :dataFinal ");
+                        sb.append(" AND a.dateFinalizacao > :dataInicial ");
+                }
+
                 Query query = getEntityManager().createQuery(sb.toString());
-                query.setParameter("dataFinal", form.getDataFinal());
-                query.setParameter("dataInicial", form.getDataInicial());
-                
-                return (int) query.getSingleResult();
+
+                if (contemDatas) {
+                        query.setParameter("dataFinal", form.getDataFinal());
+                        query.setParameter("dataInicial", form.getDataInicial());
+                }
+
+                return (Long) query.getSingleResult();
         }
 
 }

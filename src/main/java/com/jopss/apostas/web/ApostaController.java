@@ -98,6 +98,7 @@ public class ApostaController extends ApostasController {
                 Resposta resposta = new Resposta();
                 try{
                         resposta.setLista((new Aposta()).buscarRegistroPaginado(form), resp);
+                        resposta.setForm(form);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);

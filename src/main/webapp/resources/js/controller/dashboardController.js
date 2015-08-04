@@ -1,7 +1,7 @@
 appMain.controller("DashboardController", ["$scope", "$location", "Aposta", "CONST",
     function ($scope, $location, Aposta, CONST) {
-        
-        $scope.apostaForm = {paginaAtual: '', dataInicial: null, dataFinal: null, quantidadeRegistro: CONST.QTDREGISTROPAGINACAO, totalRegistro:''};
+
+        $scope.apostaForm = {paginaAtual: '', dataInicial: null, dataFinal: null, quantidadeRegistro: CONST.QTDREGISTROPAGINACAO, totalRegistro: ''};
         $scope.deletar = function (id) {
             Aposta.deletar(id).then(function (result) {
                 addMensagemRetorno($scope, result);
@@ -14,37 +14,24 @@ appMain.controller("DashboardController", ["$scope", "$location", "Aposta", "CON
         $scope.editar = function (id) {
             $location.path("/aposta/").search({id: id});
         };
-        
-        $scope.buscar = function(){
+
+        $scope.buscar = function () {
             Aposta.buscarPaginaAtual($scope.apostaForm).then(function (result) {
                 $scope.apostas = result.lista;
-                $scope.totalItems = result.apostaForm.totalRegistro;
-            });
-            
-        }
-        
-        $scope.buscarTotalItems = function () {
-            Aposta.buscar().then(function (result) {
-
-                //configura a paginacao
-                $scope.totalItems = result.lista.length;
-                console.log($scope.apostas);
+                $scope.totalItems = result.form.totalRegistros;
             }, function (result) {
                 $scope.msg = result;
             });
-        };
-        
+
+        }
+
         $scope.$watch('apostaForm.paginaAtual', function () {
-            Aposta.buscarPaginaAtual($scope.apostaForm).then(function (result) {
-                $scope.apostas = result.lista;
-            });
+            $scope.buscar();
         });
 
         $scope.init = function () {
-
-            $scope.buscarTotalItems();
             $scope.apostaForm.paginaAtual = 1;
-
+            $scope.buscar();
         }
 
         $scope.init();
