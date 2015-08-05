@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * Classe mae de todas os modelos. Auxilia na estrategia de banco de dados,
@@ -69,6 +70,14 @@ public abstract class Modelos implements Serializable {
                 }
                 try {
                         return (T) AppContextUtil.getApplicationContext().getBean(Class.forName("com.jopss.apostas.servicos.repositorio."+this.getClass().getSimpleName()+"Repositorio"));
+                } catch (ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                }
+	}
+        
+        protected <T extends CrudRepository>T getRepository() {
+                try {
+                        return (T) AppContextUtil.getApplicationContext().getBean(Class.forName("com.jopss.apostas.servicos.repositorio."+this.getClass().getSimpleName()+"Repository"));
                 } catch (ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                 }

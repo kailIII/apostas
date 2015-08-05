@@ -2,6 +2,7 @@ package com.jopss.apostas.modelos;
 
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepositorio;
+import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
 import com.jopss.apostas.util.Modelos;
 import java.util.List;
 import javax.persistence.Column;
@@ -51,12 +52,17 @@ public class Usuario extends Modelos {
                 return (UsuarioRepositorio) super.getRepositorio();
         }
         
+        @Override
+        protected UsuarioRepository getRepository(){
+                return (UsuarioRepository) super.getRepository();
+        }
+        
         public Usuario buscarPorId() {
-		return this.getRepositorio().buscarPorId(this.getId());
+		return this.getRepository().findOne(id);
 	}
         
         public Usuario buscarPorLogin(){
-                return this.getRepositorio().buscarPorLogin(login);
+                return this.getRepository().findByLogin(login);
         }
         
         public List<Usuario> buscarTodos(){
