@@ -2,12 +2,14 @@ package com.jopss.apostas.servicos.repositorio;
 
 import com.jopss.apostas.util.*;
 import com.jopss.apostas.excecoes.ApostasException;
+import com.jopss.apostas.web.form.PaginacaoForm;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class Repositorio implements Serializable {
 
@@ -64,6 +66,20 @@ public abstract class Repositorio implements Serializable {
                         return getEntityManager();
                 }
                 return entityManagers[0];
+        }
+        
+        protected void configurarPaginacao(Query query, HQLGenerator queryGenerator, PaginacaoForm form){
+                int inicio = form.getPaginaAtual() * form.getQuantidadeRegistro() - form.getQuantidadeRegistro();
+                query.setFirstResult(inicio);
+                query.setMaxResults(form.getQuantidadeRegistro());
+                form.setTotalRegistros(countRegistros(queryGenerator));
+        }
+        
+        @Transactional
+        private Long countRegistros(HQLGenerator queryGenerator) {
+                Query query = getEntityManager().createQuery(queryGenerator.getCountQuery());
+                queryGenerator.setParameters(query);
+                return (Long) query.getSingleResult();
         }
 
 }

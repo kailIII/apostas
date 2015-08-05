@@ -70,7 +70,7 @@ public class ApostaController extends ApostasController {
                         resposta.addErros(ex, resp);
                 }catch( ApostasException ex){
                         log.error(ex);
-                        resposta.addErro(ex, resp);
+                        resposta.addErro(ex.getMessage(), resp);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);
@@ -99,6 +99,9 @@ public class ApostaController extends ApostasController {
                 try{
                         resposta.setLista((new Aposta()).buscarRegistroPaginado(form), resp);
                         resposta.setForm(form);
+                }catch( ApostasException ex){
+                        log.error(ex);
+                        resposta.addErro(ex.getMessage(), resp);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);

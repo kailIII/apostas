@@ -20,7 +20,7 @@ appMain.controller("DashboardController", ["$scope", "$location", "Aposta", "CON
                                 $scope.apostas = result.lista;
                                 $scope.totalItems = result.form.totalRegistros;
                         }, function (result) {
-                                $scope.msg = result;
+                                addMensagemRetorno($scope, result);
                         });
 
                 }

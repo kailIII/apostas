@@ -2,6 +2,7 @@ package com.jopss.apostas.servicos.repositorio;
 
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.modelos.Aposta;
+import com.jopss.apostas.util.ApostaHQLGenerator;
 import com.jopss.apostas.web.form.ApostaForm;
 import java.util.List;
 import javax.persistence.Query;
@@ -45,55 +46,29 @@ public class ApostaRepositorio extends Repositorio {
         }
 
         @Transactional
-        public List<Aposta> buscaPaginada(ApostaForm form) {
-                StringBuilder sb = new StringBuilder("FROM Aposta a");
-                boolean contemDatas = (form.getDataInicial() != null) && (form.getDataFinal() != null);
-                if (contemDatas) {
-                        sb.append(" WHERE ");
-                        sb.append("a.dateFinalizacao < :dataFinal ");
-                        sb.append(" AND a.dateFinalizacao > :dataInicial ");
-                }
-                sb.append(" ORDER BY a.dateFinalizacao DESC ");
+        public List<Aposta> buscaPaginada(ApostaForm form){
+                
+                Query query = buildQuery(form);
 
-                Query query = getEntityManager().createQuery(sb.toString());
-
-                if (contemDatas) {
-                        query.setParameter("dataFinal", form.getDataFinal());
-                        query.setParameter("dataInicial", form.getDataInicial());
-                }
-
-                int inicio = form.getPaginaAtual() * form.getQuantidadeRegistro() - form.getQuantidadeRegistro();
-                query.setFirstResult(inicio);
-                query.setMaxResults(form.getQuantidadeRegistro());
                 List<Aposta> apostas = query.getResultList();
                 for (Aposta aposta : apostas) {
                         Hibernate.initialize(aposta.getPalpites());
                 }
 
-                form.setTotalRegistros(countRegistros(form));
-
                 return apostas;
         }
+        
+        private Query buildQuery(ApostaForm form){
+                
+                ApostaHQLGenerator queryGenerator = new ApostaHQLGenerator();
+                queryGenerator.filtrarPorDatas(form.getDataInicial(), form.getDataFinal());
+                queryGenerator.aplicarFiltros();
+                queryGenerator.ordenarPorDataDesc();
 
-        @Transactional
-        public Long countRegistros(ApostaForm form) {
-                StringBuilder sb = new StringBuilder("SELECT COUNT (a) FROM Aposta a");
-
-                boolean contemDatas = (form.getDataInicial() != null) && (form.getDataFinal() != null);
-                if (contemDatas) {
-                        sb.append(" WHERE ");
-                        sb.append("a.dateFinalizacao < :dataFinal ");
-                        sb.append(" AND a.dateFinalizacao > :dataInicial ");
-                }
-
-                Query query = getEntityManager().createQuery(sb.toString());
-
-                if (contemDatas) {
-                        query.setParameter("dataFinal", form.getDataFinal());
-                        query.setParameter("dataInicial", form.getDataInicial());
-                }
-
-                return (Long) query.getSingleResult();
+                Query query = getEntityManager().createQuery(queryGenerator.getQuery());
+                queryGenerator.setParameters(query);
+                this.configurarPaginacao(query, queryGenerator, form);
+                
+                return query;
         }
-
 }

@@ -78,11 +78,11 @@ public class Resposta implements Serializable{
         /**
          * Adiciona qualquer mensagem de validacao gerada a partir do nao cumprimento de regras de negocio.
          * 
-         * @param ex ApostasException
+         * @param str String
          * @param resp HttpServletResponse
          */
-        public void addErro(ApostasException ex, HttpServletResponse resp){  
-                getMensagens().add(new Retorno("mensagem", ex.getMessage()));
+        public void addErro(String str, HttpServletResponse resp){  
+                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(str)));
                 resp.setStatus(HTTP_STATUS_VALIDATION);
         }
         

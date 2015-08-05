@@ -68,7 +68,12 @@ public class Aposta extends Modelos {
                 return this.getRepositorio().buscarTodos();
         }
         
-        public List<Aposta> buscarRegistroPaginado(ApostaForm form){
+        public List<Aposta> buscarRegistroPaginado(ApostaForm form) throws ApostasException{
+                
+                if(form.getDataInicial() != null && form.getDataFinal() != null && form.getDataInicial().after(form.getDataFinal())){
+                        throw new DataNaoPermitidaException("aposta.falha.intervalo_data_invalido");
+                }
+                
                 return this.getRepositorio().buscaPaginada(form);
         }
         
