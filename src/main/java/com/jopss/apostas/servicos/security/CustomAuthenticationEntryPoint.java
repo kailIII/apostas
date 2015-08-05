@@ -10,7 +10,8 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                if (authException != null) {
+                String contentType = ((HttpServletRequest) request).getHeader("Content-Type");
+                if (authException != null && contentType != null && contentType.equalsIgnoreCase("application/json")) {
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 } else {
                         super.commence(request, response, authException);

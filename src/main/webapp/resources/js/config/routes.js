@@ -10,6 +10,8 @@ appMain.config(["RestangularProvider", "$routeProvider", "$httpProvider", "CONST
                         }
                         return true;
                 });
+                
+                RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 
                 $routeProvider.when("/dashboard/", {
                         templateUrl: getContexto(CONST) + "/pages/dashboard/",
