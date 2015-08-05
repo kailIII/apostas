@@ -1,7 +1,5 @@
 package com.jopss.apostas.modelos;
 
-import com.jopss.apostas.excecoes.ApostasException;
-import com.jopss.apostas.servicos.repositorio.UsuarioRepositorio;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
 import com.jopss.apostas.util.Modelos;
 import java.util.List;
@@ -12,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.Size;
+import org.apache.commons.collections.IteratorUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -48,11 +47,6 @@ public class Usuario extends Modelos {
         }
         
         @Override
-        protected UsuarioRepositorio getRepositorio(){
-                return (UsuarioRepositorio) super.getRepositorio();
-        }
-        
-        @Override
         protected UsuarioRepository getRepository(){
                 return (UsuarioRepository) super.getRepository();
         }
@@ -66,14 +60,14 @@ public class Usuario extends Modelos {
         }
         
         public List<Usuario> buscarTodos(){
-                return this.getRepositorio().buscarTodos();
+                return IteratorUtils.toList(this.getRepository().findAll().iterator());
         }
         
         /**
          * Regras de unicidade de login e obrigatoriedade está ou banco.
          */
-        public Usuario salvar() throws ApostasException{
-                return this.getRepositorio().salvar(this);
+        public Usuario salvar() {
+                return this.getRepository().save(this);
         }
         
         @Override

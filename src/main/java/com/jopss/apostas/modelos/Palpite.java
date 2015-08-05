@@ -2,7 +2,7 @@ package com.jopss.apostas.modelos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jopss.apostas.excecoes.ApostasException;
-import com.jopss.apostas.servicos.repositorio.PalpiteRepositorio;
+import com.jopss.apostas.servicos.repositorio.PalpiteRepository;
 import com.jopss.apostas.util.Modelos;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,21 +40,21 @@ public class Palpite extends Modelos {
 
         public Palpite() {
         }
-        
+
         @Override
-        protected PalpiteRepositorio getRepositorio(){
-                return (PalpiteRepositorio) super.getRepositorio();
+        protected PalpiteRepository getRepository(){
+                return (PalpiteRepository) super.getRepository();
         }
         
         public Palpite buscarPorId() {
-		return this.getRepositorio().buscarPorId(this.getId());
+		return this.getRepository().findOne(this.getId());
 	}
         
         /**
          * Regras de unicidade de login e obrigatoriedade está ou banco.
          */
         public Palpite salvar() throws ApostasException{
-                return this.getRepositorio().salvar(this);
+                return this.getRepository().save(this);
         }
         
         @Override

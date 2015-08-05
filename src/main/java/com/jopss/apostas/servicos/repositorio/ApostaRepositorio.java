@@ -37,15 +37,6 @@ public class ApostaRepositorio extends Repositorio {
         }
 
         @Transactional
-        public List<Aposta> buscarTodos() {
-                List<Aposta> apostas = super.buscarTodos(Aposta.class);
-                for (Aposta aposta : apostas) {
-                        Hibernate.initialize(aposta.getPalpites());
-                }
-                return apostas;
-        }
-
-        @Transactional
         public List<Aposta> buscaPaginada(ApostaForm form){
                 
                 Query query = buildQuery(form);
