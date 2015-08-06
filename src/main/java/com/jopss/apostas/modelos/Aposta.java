@@ -28,6 +28,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import org.apache.commons.collections.IteratorUtils;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @Entity
 @NamedEntityGraph(name = "palpites", attributeNodes = @NamedAttributeNode("palpites"))
@@ -80,11 +82,21 @@ public class Aposta extends Modelos {
 
         public List<Aposta> buscarRegistroPaginado(ApostaForm form) throws ApostasException {
 
-                if (form.getDataInicial() != null && form.getDataFinal() != null && form.getDataInicial().after(form.getDataFinal())) {
-                        throw new DataNaoPermitidaException("aposta.falha.intervalo_data_invalido");
+                if (form.getDataInicial() != null && form.getDataFinal() != null) {
+                        if (form.getDataInicial().after(form.getDataFinal())) {
+                                throw new DataNaoPermitidaException("aposta.falha.intervalo_data_invalido");
+                        }
+                }else{
+                        throw new DataNaoPermitidaException("aposta.falha.campos_obrigatorios");
                 }
 
-                return this.getRepositorio().buscaPaginada(form);
+                int nrPagina = form.getPaginaAtual() - 1;
+                int qntRegistros = form.getQuantidadeRegistro();
+                Page<Aposta> pagina = this.getRepository().findByDateFinalizacaoBetweenOrderByDateFinalizacaoDesc(
+                        form.getDataInicial(), form.getDataFinal(), new PageRequest(nrPagina, qntRegistros));
+                form.setTotalRegistros(pagina.getTotalElements());
+
+                return IteratorUtils.toList(pagina.iterator());
         }
 
         public Aposta salvar() throws ApostasException {
