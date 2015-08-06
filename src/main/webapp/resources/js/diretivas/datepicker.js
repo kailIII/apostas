@@ -1,4 +1,4 @@
-appMain.directive('dattt', function() {
+appMain.directive('date', function() {
     return {
         restrict: 'A',
         require : 'ngModel',

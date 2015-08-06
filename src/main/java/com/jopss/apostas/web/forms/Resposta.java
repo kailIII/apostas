@@ -14,12 +14,12 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.springframework.transaction.TransactionSystemException;
 
-public class Resposta implements Serializable{
-        
+public class Resposta implements Serializable {
+
         private static final int HTTP_STATUS_ERROR = 500;
         private static final int HTTP_STATUS_VALIDATION = 403;
         private static final int HTTP_STATUS_SUCCESS = 200;
-        
+
         private Modelos modelo;
         private List lista;
         private PaginacaoForm form;
@@ -28,7 +28,7 @@ public class Resposta implements Serializable{
         public void setModelo(Modelos modelo, HttpServletResponse resp) {
                 this.setModelo(modelo, resp, "sucesso");
         }
-        
+
         public void setModelo(Modelos modelo, HttpServletResponse resp, String msg) {
                 this.modelo = modelo;
                 resp.setStatus(HTTP_STATUS_SUCCESS);
@@ -38,82 +38,84 @@ public class Resposta implements Serializable{
         public void setLista(List lista, HttpServletResponse resp) {
                 this.setLista(lista, resp, "sucesso");
         }
-        
+
         public void setLista(List lista, HttpServletResponse resp, String msg) {
                 this.lista = lista;
                 resp.setStatus(HTTP_STATUS_SUCCESS);
                 getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
         }
-        
+
         public void setForm(PaginacaoForm form, HttpServletResponse resp, String msg) {
                 this.form = form;
                 resp.setStatus(HTTP_STATUS_SUCCESS);
                 getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
         }
-        
+
         /**
          * Adiciona qualquer mensagem de erro, alterando o Status HTTP relativo.
          * Pode tratar erros SQL nativo, como unique.
-         * 
+         *
          * @param ex Exception
          * @param resp HttpServletResponse
          */
-        public void addErroGenerico(Exception ex, HttpServletResponse resp){  
+        public void addErroGenerico(Exception ex, HttpServletResponse resp) {
                 Throwable cause = ex.getCause();
-                if(cause instanceof org.hibernate.exception.ConstraintViolationException){
-                        org.hibernate.exception.ConstraintViolationException hib = (org.hibernate.exception.ConstraintViolationException)cause;
-                        if(hib.getCause() instanceof BatchUpdateException){
-                                BatchUpdateException bete = ((BatchUpdateException)hib.getCause());
+                resp.setStatus(HTTP_STATUS_ERROR);
+                if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
+                        org.hibernate.exception.ConstraintViolationException hib = (org.hibernate.exception.ConstraintViolationException) cause;
+                        if (hib.getCause() instanceof BatchUpdateException) {
+                                BatchUpdateException bete = ((BatchUpdateException) hib.getCause());
                                 String str = bete.getNextException().getMessage();
-                                if(str!=null && str.toLowerCase().contains("duplicate key")){
+                                if (str != null && str.toLowerCase().contains("duplicate key")) {
                                         getMensagens().add(new Retorno("erro", "Campo duplicado."));
                                         return;
                                 }
                         }
                 }
                 getMensagens().add(new Retorno("mensagem", ex.getMessage()));
-                resp.setStatus(HTTP_STATUS_ERROR);
         }
-        
+
         /**
-         * Adiciona qualquer mensagem de validacao gerada a partir do nao cumprimento de regras de negocio.
-         * 
+         * Adiciona qualquer mensagem de validacao gerada a partir do nao
+         * cumprimento de regras de negocio.
+         *
          * @param str String
          * @param resp HttpServletResponse
          */
-        public void addErro(String str, HttpServletResponse resp){  
+        public void addErro(String str, HttpServletResponse resp) {
                 getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(str)));
                 resp.setStatus(HTTP_STATUS_VALIDATION);
         }
-        
+
         /**
-         * Adiciona qualquer mensagem de validacao de campos BeanValidator, alterando o Status HTTP relativo.
-         * 
+         * Adiciona qualquer mensagem de validacao de campos BeanValidator,
+         * alterando o Status HTTP relativo.
+         *
          * @param ex TransactionSystemException
          * @param resp HttpServletResponse
          */
-        public void addErros(TransactionSystemException ex, HttpServletResponse resp){
-                if(ex.getRootCause() instanceof ConstraintViolationException){
+        public void addErros(TransactionSystemException ex, HttpServletResponse resp) {
+                if (ex.getRootCause() instanceof ConstraintViolationException) {
                         ConstraintViolationException exContrain = (ConstraintViolationException) ex.getRootCause();
                         Set<ConstraintViolation<?>> constraintViolations = exContrain.getConstraintViolations();
-                        if(constraintViolations!=null){
-                                for(ConstraintViolation cons : constraintViolations){
+                        if (constraintViolations != null) {
+                                for (ConstraintViolation cons : constraintViolations) {
                                         getMensagens().add(new Retorno(cons.getPropertyPath().toString(), cons.getMessage()));
                                 }
                                 resp.setStatus(HTTP_STATUS_VALIDATION);
                         }
-                 }else{
-                         this.addErroGenerico(ex, resp);
-                 }
+                } else {
+                        this.addErroGenerico(ex, resp);
+                }
         }
-        
-        public List<Retorno> getMensagens(){
-                if(mensagens == null){
+
+        public List<Retorno> getMensagens() {
+                if (mensagens == null) {
                         mensagens = new ArrayList<>();
                 }
                 return mensagens;
         }
-        
+
         public Modelos getModelo() {
                 return modelo;
         }
@@ -125,17 +127,17 @@ public class Resposta implements Serializable{
         public PaginacaoForm getForm() {
                 return form;
         }
-        
+
         public void setForm(PaginacaoForm form) {
                 this.form = form;
         }
 
-        
-        
         /**
-         * Indica campos ou chaves com seus respectivos valores sobre erros e validacoes.
+         * Indica campos ou chaves com seus respectivos valores sobre erros e
+         * validacoes.
          */
-        public static class Retorno implements Serializable{
+        public static class Retorno implements Serializable {
+
                 private String chave;
                 private String valor;
 
@@ -151,6 +153,6 @@ public class Resposta implements Serializable{
                 public String getValor() {
                         return valor;
                 }
-                
+
         }
 }

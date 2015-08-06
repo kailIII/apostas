@@ -25,7 +25,7 @@ appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usua
                 
                 $scope.apostaFinalizada = function () {
                         if($scope.aposta.dateFinalizacao != null){
-                                return new Date() > new Date($scope.aposta.dateFinalizacao);
+                                return new Date() > moment($scope.aposta.dateFinalizacao, "DD/MM/YYYY").toDate();
                         }
                         return false;
                 };
