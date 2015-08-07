@@ -4,7 +4,7 @@ import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.excecoes.DataNaoPermitidaException;
 import com.jopss.apostas.modelos.Aposta;
 import com.jopss.apostas.modelos.Palpite;
-import com.jopss.apostas.servicos.repositorio.ApostaRepositorio;
+import com.jopss.apostas.servicos.repositorio.ApostaRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import org.joda.time.DateTime;
@@ -41,10 +41,10 @@ public class ApostaTeste {
                 Aposta apostaMockado = new Aposta();
                 apostaMockado.setId(1L);
                 
-                ApostaRepositorio repoMock = mock(ApostaRepositorio.class);
-                when(repoMock.salvar(aposta)).thenReturn(apostaMockado);
+                ApostaRepository repoMock = mock(ApostaRepository.class);
+                when(repoMock.save(aposta)).thenReturn(apostaMockado);
                 
-                aposta.setRepositorio(repoMock);
+                aposta.setRepository(repoMock);
         }
         
 }

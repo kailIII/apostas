@@ -16,8 +16,12 @@ public interface ApostaRepository extends PagingAndSortingRepository<Aposta, Lon
         @Override
         @EntityGraph(value = "palpites", type = EntityGraph.EntityGraphType.LOAD)
         List<Aposta> findAll();
-        
+
+        @Override
         @EntityGraph(value = "palpites", type = EntityGraph.EntityGraphType.LOAD)
-        Page<Aposta> findByDateFinalizacaoBetweenOrderByDateFinalizacaoDesc(Date dataInicial, Date dataFinal, Pageable page);
+        Page<Aposta> findAll(Pageable page);
+
+        @EntityGraph(value = "palpites", type = EntityGraph.EntityGraphType.LOAD)
+        Page<Aposta> findByDateFinalizacaoBetween(Date dataInicial, Date dataFinal, Pageable page);
 
 }

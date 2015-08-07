@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.excecoes.DataNaoPermitidaException;
-import com.jopss.apostas.servicos.repositorio.ApostaRepositorio;
 import com.jopss.apostas.servicos.repositorio.ApostaRepository;
 import com.jopss.apostas.util.DateUtilsApostas;
 import com.jopss.apostas.util.JsonDateDeserializer;
@@ -30,6 +29,7 @@ import org.apache.commons.collections.IteratorUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Entity
 @NamedEntityGraph(name = "palpites", attributeNodes = @NamedAttributeNode("palpites"))
@@ -63,11 +63,6 @@ public class Aposta extends Modelos {
         }
 
         @Override
-        protected ApostaRepositorio getRepositorio() {
-                return (ApostaRepositorio) super.getRepositorio();
-        }
-
-        @Override
         protected ApostaRepository getRepository() {
                 return (ApostaRepository) super.getRepository();
         }
@@ -82,18 +77,21 @@ public class Aposta extends Modelos {
 
         public List<Aposta> buscarRegistroPaginado(ApostaForm form) throws ApostasException {
 
+                PageRequest pageRequest = new PageRequest(form.getPaginaAtual() - 1, form.getQuantidadeRegistro(),
+                        Sort.Direction.DESC, "dateFinalizacao");
+                Page<Aposta> pagina;
                 if (form.getDataInicial() != null && form.getDataFinal() != null) {
                         if (form.getDataInicial().after(form.getDataFinal())) {
                                 throw new DataNaoPermitidaException("aposta.falha.intervalo_data_invalido");
                         }
-                }else{
-                        throw new DataNaoPermitidaException("aposta.falha.campos_obrigatorios");
+
+                        pagina = this.getRepository().findByDateFinalizacaoBetween(
+                                form.getDataInicial(), form.getDataFinal(), pageRequest);
+
+                } else {
+                        pagina = this.getRepository().findAll(pageRequest);
                 }
 
-                int nrPagina = form.getPaginaAtual() - 1;
-                int qntRegistros = form.getQuantidadeRegistro();
-                Page<Aposta> pagina = this.getRepository().findByDateFinalizacaoBetweenOrderByDateFinalizacaoDesc(
-                        form.getDataInicial(), form.getDataFinal(), new PageRequest(nrPagina, qntRegistros));
                 form.setTotalRegistros(pagina.getTotalElements());
 
                 return IteratorUtils.toList(pagina.iterator());

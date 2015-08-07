@@ -1,6 +1,5 @@
 package com.jopss.apostas.util;
 
-import com.jopss.apostas.servicos.repositorio.Repositorio;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.MappedSuperclass;
@@ -35,7 +34,7 @@ public abstract class Modelos implements Serializable {
 	public abstract Long getId();
         
         @Transient
-        private Repositorio repositorio;
+        private CrudRepository repository;
         
 	@Override
 	public int hashCode() {
@@ -63,19 +62,11 @@ public abstract class Modelos implements Serializable {
 	public String toString() {
 		return this.getClass().getName()+"[id=" + getId() + "]";
 	}
-	
-        protected <T extends Repositorio>T getRepositorio() {
-                if(repositorio != null){
-                        return (T) repositorio;
-                }
-                try {
-                        return (T) AppContextUtil.getApplicationContext().getBean(Class.forName("com.jopss.apostas.servicos.repositorio."+this.getClass().getSimpleName()+"Repositorio"));
-                } catch (ClassNotFoundException ex) {
-                        throw new RuntimeException(ex);
-                }
-	}
         
         protected <T extends CrudRepository>T getRepository() {
+                if(repository != null){
+                        return (T) repository;
+                }
                 try {
                         return (T) AppContextUtil.getApplicationContext().getBean(Class.forName("com.jopss.apostas.servicos.repositorio."+this.getClass().getSimpleName()+"Repository"));
                 } catch (ClassNotFoundException ex) {
@@ -99,8 +90,8 @@ public abstract class Modelos implements Serializable {
                 return dataAtualizacao;
         }
 
-        public void setRepositorio(Repositorio repositorio) {
-                this.repositorio = repositorio;
+        public void setRepository(CrudRepository repository) {
+                this.repository = repository;
         }
         
 }
