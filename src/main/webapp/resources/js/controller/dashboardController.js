@@ -1,7 +1,7 @@
 appMain.controller("DashboardController", ["$scope", "$location", "Aposta", "CONST",
         function ($scope, $location, Aposta, CONST) {
 
-                $scope.apostaForm = {paginaAtual: '', dataInicial: null, dataFinal: null, quantidadeRegistro: CONST.QTDREGISTROPAGINACAO, totalRegistro: ''};
+                $scope.apostaForm = {paginaAtual: '', dataInicial: null, dataFinal: null, descricao:'', quantidadeRegistro: CONST.QTDREGISTROPAGINACAO, totalRegistro: ''};
                 $scope.deletar = function (id) {
                         Aposta.deletar(id).then(function (result) {
                                 addMensagemRetorno($scope, result);

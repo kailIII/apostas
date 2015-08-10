@@ -1,6 +1,7 @@
 package com.jopss.apostas.web.form;
 
 import java.io.Serializable;
+import org.springframework.data.domain.PageRequest;
 
 public class PaginacaoForm implements Serializable {
 
@@ -30,6 +31,10 @@ public class PaginacaoForm implements Serializable {
 
         public void setTotalRegistros(Long totalRegistros) {
                 this.totalRegistros = totalRegistros;
+        }
+        
+        public PageRequest getPageRequest(){
+                return new PageRequest(this.paginaAtual-1, this.quantidadeRegistro);
         }
         
 }

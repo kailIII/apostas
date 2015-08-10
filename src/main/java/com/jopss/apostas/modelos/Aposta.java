@@ -77,24 +77,22 @@ public class Aposta extends Modelos {
 
         public List<Aposta> buscarRegistroPaginado(ApostaForm form) throws ApostasException {
 
-                PageRequest pageRequest = new PageRequest(form.getPaginaAtual() - 1, form.getQuantidadeRegistro(),
-                        Sort.Direction.DESC, "dateFinalizacao");
+                PageRequest pageRequest = form.getPageRequest();
                 Page<Aposta> pagina;
                 if (form.getDataInicial() != null && form.getDataFinal() != null) {
                         if (form.getDataInicial().after(form.getDataFinal())) {
                                 throw new DataNaoPermitidaException("aposta.falha.intervalo_data_invalido");
                         }
 
-                        pagina = this.getRepository().findByDateFinalizacaoBetween(
-                                form.getDataInicial(), form.getDataFinal(), pageRequest);
+                        pagina = this.getRepository().findByDateFinalizacaoBetweenAndDescricao(
+                                form.getDataInicial(), form.getDataFinal(),form.getDescricao() , pageRequest);
 
                 } else {
                         pagina = this.getRepository().findAll(pageRequest);
                 }
 
                 form.setTotalRegistros(pagina.getTotalElements());
-
-                return IteratorUtils.toList(pagina.iterator());
+                return pagina.getContent();
         }
 
         public Aposta salvar() throws ApostasException {

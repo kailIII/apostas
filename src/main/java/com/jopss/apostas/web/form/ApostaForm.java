@@ -15,6 +15,8 @@ public class ApostaForm extends PaginacaoForm{
         @JsonSerialize(using=JsonDateSerializer.class)
         @JsonDeserialize(using=JsonDateDeserializer.class)
         private Date dataFinal;
+        
+        private String descricao;
 
         public Date getDataInicial() {
                 return dataInicial;
@@ -30,6 +32,14 @@ public class ApostaForm extends PaginacaoForm{
 
         public void setDataFinal(Date dataFinal) {
                 this.dataFinal = dataFinal;
+        }
+
+        public String getDescricao() {
+                return descricao;
+        }
+
+        public void setDescricao(String Descricao) {
+                this.descricao = Descricao;
         }
         
 }
