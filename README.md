@@ -6,4 +6,4 @@ Feito com:
 + AngularJS.
 + Bootstrap.
 + Spring Security.
-+ JPA.
++ JPA e Spring Data.
