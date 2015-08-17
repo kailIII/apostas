@@ -11,7 +11,7 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
                 String contentType = ((HttpServletRequest) request).getHeader("Content-Type");
-                if (authException != null && contentType != null && contentType.equalsIgnoreCase("application/json")) {
+                if (authException != null && contentType != null && contentType.contains("application/json")) {
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 } else {
                         super.commence(request, response, authException);

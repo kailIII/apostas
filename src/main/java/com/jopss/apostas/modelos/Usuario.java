@@ -1,6 +1,7 @@
 package com.jopss.apostas.modelos;
 
 import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
+import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.Modelos;
 import java.util.List;
 import javax.persistence.Column;
@@ -27,12 +28,12 @@ public class Usuario extends Modelos {
         private String nome;
         
         @NotEmpty
-        @Size(max = 20)
+        @Size(min = 1, max = 20)
         @Column(unique = true)
         private String login;
         
         @NotEmpty
-        @Size(max = 10)
+        @Size(min = 1)
         private String senha;
 
         public Usuario() {
@@ -67,6 +68,7 @@ public class Usuario extends Modelos {
          * Regras de unicidade de login e obrigatoriedade está ou banco.
          */
         public Usuario salvar() {
+                this.setSenha( FormatterAndValues.encryptMD5(this.getSenha()) );
                 return this.getRepository().save(this);
         }
         

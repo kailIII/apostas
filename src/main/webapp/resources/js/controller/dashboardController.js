@@ -1,41 +1,40 @@
-appMain.controller("DashboardController", ["$scope", "$location", "Aposta", "CONST",
-        function ($scope, $location, Aposta, CONST) {
+appMain.controller("DashboardController", function ($scope, $location, Aposta, CONST) {
+        var ctrl = this;
+        
+        ctrl.form = {paginaAtual: '', dataInicial: null, dataFinal: null, descricao: '', quantidadeRegistro: CONST.QTDREGISTROPAGINACAO, totalRegistro: ''};
+        ctrl.deletar = function (id) {
+                Aposta.deletar(id).then(function (result) {
+                        addMensagemRetorno(ctrl, result);
+                        ctrl.apostas = result.lista;
+                }, function (result) {
+                        addMensagemRetorno(ctrl, result);
+                });
+        };
 
-                $scope.apostaForm = {paginaAtual: '', dataInicial: null, dataFinal: null, descricao:'', quantidadeRegistro: CONST.QTDREGISTROPAGINACAO, totalRegistro: ''};
-                $scope.deletar = function (id) {
-                        Aposta.deletar(id).then(function (result) {
-                                addMensagemRetorno($scope, result);
-                                $scope.apostas = result.lista;
-                        }, function (result) {
-                                addMensagemRetorno($scope, result);
-                        });
-                };
+        ctrl.editar = function (id) {
+                $location.path("/aposta/").search({id: id});
+        };
 
-                $scope.editar = function (id) {
-                        $location.path("/aposta/").search({id: id});
-                };
-
-                $scope.buscar = function () {
-                        Aposta.buscarPaginaAtual($scope.apostaForm).then(function (result) {
-                                $scope.apostas = result.lista;
-                                $scope.totalItems = result.form.totalRegistros;
-                        }, function (result) {
-                                addMensagemRetorno($scope, result);
-                        });
-
-                }
-
-                $scope.$watch('apostaForm.paginaAtual', function () {
-                        $scope.buscar();
+        ctrl.buscar = function () {
+                Aposta.buscarPaginaAtual(ctrl.form).then(function (result) {
+                        ctrl.apostas = result.lista;
+                        ctrl.totalItems = result.form.totalRegistros;
+                }, function (result) {
+                        addMensagemRetorno(ctrl, result);
                 });
 
-                $scope.init = function () {
-                        $scope.apostaForm.paginaAtual = 1;
-                        $scope.buscar();
-                }
-
-                $scope.init();
         }
-]);
+
+        $scope.$watch('ctrl.form.paginaAtual', function () {
+                ctrl.buscar();
+        });
+
+        ctrl.init = function () {
+                ctrl.form.paginaAtual = 1;
+                ctrl.buscar();
+        }
+
+        ctrl.init();
+});
 
 

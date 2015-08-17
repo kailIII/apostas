@@ -1,16 +1,16 @@
-<div ng-controller="DashboardController" >
-        <mensagem valor="mensagem"></mensagem>
+<div ng-controller="DashboardController as ctrl" >
+        <apostas-mensagem valor="ctrl.mensagem"></apostas-mensagem>
         <br />
         <h3>Dashboard</h3>
-        <form role="form" name="aposta-form" ng-submit="buscar()">
+        <form role="form" name="aposta-form" ng-submit="ctrl.buscar()">
                 <div class="form-group col-md-6" >
-                        <input class="form-control" date placeholder="Data Inicial" name="dataInicial" type="text" ng-model="apostaForm.dataInicial" required />
+                        <input class="form-control" apostas-date placeholder="Data Inicial" name="dataInicial" type="text" ng-model="ctrl.form.dataInicial" required />
                 </div>
                 <div class="form-group col-md-6" >
-                        <input class="form-control" date placeholder="Data Final" name="dataFinal" type="text" ng-model="apostaForm.dataFinal" required />
+                        <input class="form-control" apostas-date placeholder="Data Final" name="dataFinal" type="text" ng-model="ctrl.form.dataFinal" required />
                 </div>
                 <div class="form-group col-md-12" >
-                        <input class="form-control" placeholder="Descrição" name="descricao" type="text" ng-model="apostaForm.descricao" />
+                        <input class="form-control" placeholder="Descrição" name="descricao" type="text" ng-model="ctrl.form.descricao" />
                 </div>
                 <div class="form-group col-md-5" ></div>
                 <div class="form-group col-md-2" >
@@ -28,18 +28,18 @@
                         </tr>
                 </thead>
                 <tbody>
-                        <tr ng-repeat="aposta in apostas">
+                        <tr ng-repeat="aposta in ctrl.apostas">
                                 <td>{{aposta.descricao}}</td>
                                 <td>{{aposta.dateFinalizacao| date:'dd/MM/yyyy'}}</td>
                                 <td>-</td>
                                 <td>
-                                        <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="editar(aposta.id)"/>
-                                        <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="deletar(aposta.id)"/>
+                                        <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="ctrl.editar(aposta.id)"/>
+                                        <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="ctrl.deletar(aposta.id)"/>
                                 </td>
                         </tr>
                 </tbody>
         </table>
-        <div ng-show="apostas.length > 0">
-                <pagination boundary-links="true" items-per-page="apostaForm.quantidadeRegistro" total-items="totalItems" ng-model="apostaForm.paginaAtual" max-size="maxSize" class="pagination-sm paginate_button" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        <div ng-show="ctrl.apostas.length > 0">
+                <pagination boundary-links="true" items-per-page="ctrl.form.quantidadeRegistro" total-items="ctrl.totalItems" ng-model="ctrl.form.paginaAtual" max-size="ctrl.maxSize" class="pagination-sm paginate_button" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
 </div>

@@ -1,74 +1,77 @@
-appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usuario",
-        function ($scope, $routeParams, Aposta, Usuario) {
-                limparTela($scope);
-                
-                $scope.adicionarPalpite = function () {
-                        if ($scope.palpite.descricao != '' && $scope.palpite.usuario != '') {
-                                $scope.aposta.palpites.push($scope.palpite);
-                                $scope.palpite = {descricao: '', usuario: ''};
+(function () {
+        'use strict';
+
+        appMain.controller("ApostaController", function ($routeParams, Aposta, Usuario) {
+                var ctrl = this;
+                limparTela(ctrl);
+
+                ctrl.adicionarPalpite = function () {
+                        if (ctrl.palpite.descricao != '' && ctrl.palpite.usuario != '') {
+                                ctrl.aposta.palpites.push(ctrl.palpite);
+                                ctrl.palpite = {descricao: '', usuario: ''};
                         } else {
-                                addMensagemValidacao($scope, "Verifique os campos obrigatórios: Usuário e Palpite");
+                                addMensagemValidacao(ctrl, "Verifique os campos obrigatórios: Usuário e Palpite");
                         }
                 };
-                
-                $scope.removerPalpite = function (idx) {
-                        $scope.aposta.palpites.splice(idx,1);
+
+                ctrl.removerPalpite = function (idx) {
+                        ctrl.aposta.palpites.splice(idx, 1);
                 };
-                
-                $scope.declararVencedor = function (idx) {
-                        $scope.aposta.palpites[idx].venceu = true;
+
+                ctrl.declararVencedor = function (idx) {
+                        ctrl.aposta.palpites[idx].venceu = true;
                 };
-                
-                $scope.desfazerVencedor = function (idx) {
-                        $scope.aposta.palpites[idx].venceu = false;
+
+                ctrl.desfazerVencedor = function (idx) {
+                        ctrl.aposta.palpites[idx].venceu = false;
                 };
-                
-                $scope.apostaFinalizada = function () {
-                        if($scope.aposta.dateFinalizacao != null){
-                                return new Date() > moment($scope.aposta.dateFinalizacao, "DD/MM/YYYY").toDate();
+
+                ctrl.apostaFinalizada = function () {
+                        if (ctrl.aposta.dateFinalizacao != null) {
+                                return new Date() > moment(ctrl.aposta.dateFinalizacao, "DD/MM/YYYY").toDate();
                         }
                         return false;
                 };
 
-                $scope.salvar = function () {
-                        if ($scope.aposta.palpites.length == 0) {
-                                addMensagemValidacao($scope, "Adicione pelo menos um palpite");
+                ctrl.salvar = function () {
+                        if (ctrl.aposta.palpites.length == 0) {
+                                addMensagemValidacao(ctrl, "Adicione pelo menos um palpite");
                         } else {
-                                Aposta.salvar($scope.aposta).then(function (result) {
-                                        addMensagemRetorno($scope, result);
-                                        limparTela($scope);
-                                        $scope.init();
+                                Aposta.salvar(ctrl.aposta).then(function (result) {
+                                        addMensagemRetorno(ctrl, result);
+                                        limparTela(ctrl);
+                                        ctrl.init();
                                 }, function (result) {
-                                        addMensagemRetorno($scope, result);
+                                        addMensagemRetorno(ctrl, result);
                                 });
                         }
                 };
 
-                $scope.init = function () {
+                ctrl.init = function () {
                         var id = $routeParams.id;
-                        if(angular.isDefined(id)){
+                        if (angular.isDefined(id)) {
                                 Aposta.editar(id).then(function (result) {
-                                        $scope.aposta = result.modelo;
+                                        ctrl.aposta = result.modelo;
                                 }, function (result) {
-                                        addMensagemRetorno($scope, result);
-                                        limparTela($scope);
+                                        addMensagemRetorno(ctrl, result);
+                                        limparTela(ctrl);
                                 });
                         }
                         //carrega a combo de usuarios utilizadas no cadastro de apostas
                         Usuario.buscarTodos().then(function (result) {
-                                $scope.usuarios = result.lista;
+                                ctrl.usuarios = result.lista;
                         }, function (result) {
-                                addMensagemRetorno($scope, result);
-                                limparTela($scope);
+                                addMensagemRetorno(ctrl, result);
+                                limparTela(ctrl);
                         });
                 };
-                $scope.init();
-                limparMensagens($scope);
-        }
-]);
+                ctrl.init();
+                limparMensagens(ctrl);
+        });
 
-function limparTela($scope){
-        $scope.aposta = {descricao: '', dateFinalizacao: null, palpites: []};
-        $scope.palpite = {descricao: '', usuario: ''};
-        $scope.usuarios = {};
-}
+        function limparTela(ctrl) {
+                ctrl.aposta = {descricao: '', dateFinalizacao: null, palpites: []};
+                ctrl.palpite = {descricao: '', usuario: ''};
+                ctrl.usuarios = {};
+        }
+})();

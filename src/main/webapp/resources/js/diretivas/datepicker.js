@@ -1,4 +1,4 @@
-appMain.directive('date', function() {
+appMain.directive('apostasDate', function() {
     return {
         restrict: 'A',
         require : 'ngModel',

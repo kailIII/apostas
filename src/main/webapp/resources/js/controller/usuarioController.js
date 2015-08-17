@@ -1,34 +1,36 @@
-appMain.controller("UsuarioController", ["$scope", "$routeParams", "Usuario",
-        function ($scope, $routeParams, Usuario) {
-                limparTela($scope);
-                
-                $scope.salvar = function () {
-                        Usuario.salvar($scope.usuario).then(function (result) {
-                                addMensagemRetorno($scope, result);
-                                limparTela($scope);
+(function () {
+        'use strict';
+
+        appMain.controller("UsuarioController", function ($routeParams, Usuario) {
+                var ctrl = this;
+                limparTela(ctrl);
+
+                ctrl.salvar = function () {
+                        Usuario.salvar(ctrl.usuario).then(function (result) {
+                                addMensagemRetorno(ctrl, result);
+                                limparTela(ctrl);
                         }, function (result) {
-                                addMensagemRetorno($scope, result);
+                                addMensagemRetorno(ctrl, result);
                         });
                 };
 
+                ctrl.init = function () {
+                        Usuario.buscarLogado().then(function (result) {
+                                ctrl.usuario = result.modelo;
+                        }, function (result) {
+                                addMensagemRetorno(ctrl, result);
+                                limparTela(ctrl);
+                        });
+                }
+                        
                 var acao = $routeParams.acao;
                 if (acao == 'buscar') {
-                        $scope.init = function () {
-                                Usuario.buscarLogado().then(function (result) {
-                                        $scope.usuario = result.modelo;
-                                }, function (result) {
-                                        addMensagemRetorno($scope, result);
-                                        limparTela($scope);
-                                });
-                        }
-                        $scope.init();
+                        ctrl.init();
                 }
-                limparMensagens($scope);
+                limparMensagens(ctrl);
+        });
+
+        function limparTela(ctrl) {
+                ctrl.usuario = {nome: '', login: '', senha: ''};
         }
-]);
-
-
-function limparTela($scope){
-        $scope.usuario = {nome: '', login: '', senha: ''};
-}
-
+})();

@@ -1,9 +1,7 @@
-package com.jopss.apostas.web.forms;
+package com.jopss.apostas.web.form;
 
-import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.Modelos;
-import com.jopss.apostas.web.form.PaginacaoForm;
 import java.io.Serializable;
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;

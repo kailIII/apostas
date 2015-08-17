@@ -1,7 +1,7 @@
 package com.jopss.apostas.web;
 
 import com.jopss.apostas.modelos.Usuario;
-import com.jopss.apostas.web.forms.Resposta;
+import com.jopss.apostas.web.form.Resposta;
 import com.jopss.apostas.web.util.ApostasController;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,6 +20,18 @@ public class UsuarioController extends ApostasController{
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String abrir() {
 		return "usuario/cadastro";
+	}
+        
+        /**
+         * Acao que verifica periodicamente se ha usuario logado.
+         */
+        @ResponseBody
+        @RequestMapping(value = "/verificar/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String verificar() {
+                if(super.sessionUserSupport.getUsuarioLogado() == null){
+                        return "{\"mensagem\": \"NOK\"}";
+                }
+		return "{\"mensagem\": \"verificado\"}";
 	}
         
         @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +70,10 @@ public class UsuarioController extends ApostasController{
 	public Resposta buscarLogado(HttpServletResponse resp, HttpSession session) {
                 Resposta resposta = new Resposta();
                 try {
-                        resposta.setModelo(super.sessionUserSupport.getUsuarioLogado(), resp);
+                        Usuario usu = super.sessionUserSupport.getUsuarioLogado();
+                        usu.setSenha(null);
+                        
+                        resposta.setModelo(usu, resp);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);

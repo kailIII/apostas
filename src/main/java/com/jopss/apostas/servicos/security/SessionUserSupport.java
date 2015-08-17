@@ -41,7 +41,11 @@ public class SessionUserSupport {
 	}
         
         public Usuario getUsuarioLogado(){
-                return this.getUserDetailsWrapper().getUsuario();
+                UserDetailsWrapper usu = this.getUserDetailsWrapper();
+                if(usu!=null){
+                        return usu.getUsuario();
+                }
+                return null;
         }
 
 	private UserDetailsWrapper getUserDetailsWrapper() {

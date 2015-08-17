@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html ng-app="loginApp" lang="en">
+<html lang="en">
         <head>
                 <meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,7 +36,7 @@
                         <div class="row">
                                 <div class="col-md-12" style="text-align: center">
                                     <c:if test="${not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}" >
-                                        <div class="errorHandler alert alert-danger">
+                                        <div id="msg_security" class="errorHandler alert alert-danger">
                                                 <i class="fa fa-remove-sign"></i> ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
                                         </div>
                                     </c:if>

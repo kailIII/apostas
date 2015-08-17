@@ -15,7 +15,8 @@
     
         <security:http auto-config="true" entry-point-ref="customAuthenticationEntryPoint" >
                 <security:form-login login-page="/login.jsp" default-target-url="/pages/principal/" authentication-failure-url="/login.jsp" authentication-success-handler-ref="authenticationSuccessHandler" />
-
+                
+                <security:intercept-url pattern="/pages/usuario/verificar/"                     access="IS_AUTHENTICATED_ANONYMOUSLY" />
                 <security:intercept-url pattern="/pages/**"                                     access="ROLE_LOGADO" />
         </security:http>
     

@@ -29,7 +29,6 @@ import org.apache.commons.collections.IteratorUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 @Entity
 @NamedEntityGraph(name = "palpites", attributeNodes = @NamedAttributeNode("palpites"))
