@@ -7,3 +7,7 @@ Feito com:
 + Bootstrap.
 + Spring Security.
 + JPA e Spring Data.
+
+Contem testes e estudos sobre:
++ Paginação real com Angular + Spring Data.
++ Segurança de requisições Ajax e rotas Angular.
