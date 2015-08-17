@@ -1,6 +1,6 @@
 appMain.config(function (RestangularProvider, $routeProvider, $httpProvider, CONST) {
         
-        //para login de sessao expirada por ajax dos dados.
+        //para expiramento de sessao por ajax dos dados.
         RestangularProvider.setErrorInterceptor(function (response, deferred, responseHandler) {
                 if (response.status === 401) {
                         return abrirLogin();

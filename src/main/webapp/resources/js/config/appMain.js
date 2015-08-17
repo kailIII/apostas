@@ -7,17 +7,13 @@ appMain.constant("CONST", {
         QTDREGISTROPAGINACAO: 3
 });
 
-appMain.run(function ($rootScope, $templateCache, Login) {
-        $rootScope.$on('$routeChangeStart', function (event, next, current) {
-                
-                //forca o angular a reinvocar os templates, sempre forcando a verificacao de sessao logada nas rotas.
-                if (typeof (current) !== 'undefined') {
-                        $templateCache.remove(current.templateUrl);
-                }
-                
+appMain.run(function ($rootScope, $templateCache, $route, Login) {
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
                 //a toda rota verifica sessao expirada
                 Login.verificar().then(function (result) {
                         if(result == null || result.mensagem=='NOK'){
+                                //guarda a rota anterior para pegar os dados novamente em caso de sucesso.
+                                globalRotaAnterior = $route;
                                 return abrirLogin();
                         }
                 });
