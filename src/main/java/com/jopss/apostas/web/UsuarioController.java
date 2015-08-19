@@ -2,6 +2,7 @@ package com.jopss.apostas.web;
 
 import com.jopss.apostas.modelos.Usuario;
 import com.jopss.apostas.web.form.Resposta;
+import com.jopss.apostas.web.form.RespostaSessao;
 import com.jopss.apostas.web.util.ApostasController;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,11 +28,10 @@ public class UsuarioController extends ApostasController{
          */
         @ResponseBody
         @RequestMapping(value = "/verificar/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String verificar() {
-                if(super.sessionUserSupport.getUsuarioLogado() == null){
-                        return "{\"mensagem\": \"NOK\"}";
-                }
-		return "{\"mensagem\": \"verificado\"}";
+	public RespostaSessao verificar(HttpServletResponse resp) {
+                RespostaSessao resposta = new RespostaSessao();
+                resposta.addUsuario( super.sessionUserSupport.getUsuarioLogado(), resp );
+		return resposta;
 	}
         
         @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

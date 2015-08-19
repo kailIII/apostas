@@ -1,5 +1,6 @@
 package com.jopss.apostas.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
 import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.Modelos;
@@ -9,12 +10,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.Size;
 import org.apache.commons.collections.IteratorUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@NamedEntityGraph(name = "perfil.permissoes", attributeNodes = @NamedAttributeNode(value = "perfil", subgraph = "permissoes"), 
+               subgraphs = @NamedSubgraph(name = "permissoes", attributeNodes = @NamedAttributeNode("permissoes")))
 public class Usuario extends Modelos {
         
         private static final long serialVersionUID = 8765060059417187982L;
@@ -35,6 +42,10 @@ public class Usuario extends Modelos {
         @NotEmpty
         @Size(min = 1)
         private String senha;
+        
+        @JsonIgnore //por seguranca tira os perfis das consultas.
+        @ManyToOne(optional = false)
+        private Perfil perfil;
 
         public Usuario() {
         }
@@ -103,6 +114,10 @@ public class Usuario extends Modelos {
 
         public void setSenha(String senha) {
                 this.senha = senha;
+        }
+
+        public Perfil getPerfil() {
+                return perfil;
         }
         
 }

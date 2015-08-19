@@ -1,5 +1,7 @@
 package com.jopss.apostas.util;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.MappedSuperclass;
@@ -20,6 +22,7 @@ import org.springframework.data.repository.CrudRepository;
  * Spring.
  */
 @MappedSuperclass
+@JsonAutoDetect(fieldVisibility=Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public abstract class Modelos implements Serializable {
         
 	protected static final Logger logger = Logger.getLogger(Modelos.class);

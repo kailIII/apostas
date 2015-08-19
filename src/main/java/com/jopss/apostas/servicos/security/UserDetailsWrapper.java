@@ -1,7 +1,7 @@
 package com.jopss.apostas.servicos.security;
 
+import com.jopss.apostas.modelos.Permissao;
 import com.jopss.apostas.modelos.Usuario;
-import com.jopss.apostas.modelos.enums.RoleEnum;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,21 +14,16 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class UserDetailsWrapper implements UserDetails{
 	
-	private Usuario usuario;
+	private final Usuario usuario;
 	private List<GrantedAuthority> authorities = new ArrayList<>();
 
 	public UserDetailsWrapper(Usuario usuario) {
 		this.usuario = usuario;
-		this.setCleanAccessList();
-		
-//		for(Access access : accesses) {
-//			this.authorities.add(new SimpleGrantedAuthority(access.getPermission().getRole().name()));
-//		}
-	}
-	
-	public void setCleanAccessList() {
 		this.authorities = new ArrayList<>();
-		this.authorities.add(new SimpleGrantedAuthority(RoleEnum.ROLE_LOGADO.toString()));
+                
+                for(Permissao permissao : usuario.getPerfil().getPermissoes()){
+                        this.authorities.add(new SimpleGrantedAuthority(permissao.getPapel().name()));
+                }
 	}
 	
 	@Override

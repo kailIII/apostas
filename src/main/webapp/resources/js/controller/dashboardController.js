@@ -5,7 +5,7 @@ appMain.controller("DashboardController", function ($scope, $location, Aposta, C
         ctrl.deletar = function (id) {
                 Aposta.deletar(id).then(function (result) {
                         addMensagemRetorno(ctrl, result);
-                        ctrl.apostas = result.lista;
+                        ctrl.buscar();
                 }, function (result) {
                         addMensagemRetorno(ctrl, result);
                 });

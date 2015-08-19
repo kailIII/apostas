@@ -29,7 +29,7 @@ public class ApostaController extends ApostasController {
                 Resposta resposta = new Resposta();
                 try {
                         new Aposta(id).remover();
-                        resposta.setLista((new Aposta()).buscarTodos(), resp, "aposta.sucesso.deletar");
+                        resposta.setMensagemSucesso("aposta.sucesso.deletar", resp);
                         
                 } catch (TransactionSystemException ex) {
                         log.error(ex);
@@ -79,22 +79,8 @@ public class ApostaController extends ApostasController {
         }
         
         @ResponseBody
-        @RequestMapping(value = "/apostas/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resposta buscarTodos(HttpServletResponse resp) {
-                Resposta resposta = new Resposta();
-                try{
-                        
-                        resposta.setLista((new Aposta()).buscarTodos(), resp);
-                } catch (Exception ex) {
-                        log.error(ex);
-                        resposta.addErroGenerico(ex, resp);
-                }
-                return resposta;
-	}
-        
-        @ResponseBody
         @RequestMapping(value = "/apostas/pagina", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resposta buscarPaginaAtual(@RequestBody ApostaForm form, HttpServletResponse resp) {
+	public Resposta buscarPorPagina(@RequestBody ApostaForm form, HttpServletResponse resp) {
                 Resposta resposta = new Resposta();
                 try{
                         resposta.setLista((new Aposta()).buscarRegistroPaginado(form), resp);

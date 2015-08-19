@@ -49,6 +49,11 @@ public class Resposta implements Serializable {
                 getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
         }
 
+        public void setMensagemSucesso(String msg, HttpServletResponse resp) {
+                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
+                resp.setStatus(HTTP_STATUS_SUCCESS);
+        }
+
         /**
          * Adiciona qualquer mensagem de erro, alterando o Status HTTP relativo.
          * Pode tratar erros SQL nativo, como unique.
@@ -83,6 +88,10 @@ public class Resposta implements Serializable {
         public void addErro(String str, HttpServletResponse resp) {
                 getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(str)));
                 resp.setStatus(HTTP_STATUS_VALIDATION);
+        }
+        
+        public void addErroLogin(String str) {
+                getMensagens().add(new Retorno("mensagem", str));
         }
 
         /**

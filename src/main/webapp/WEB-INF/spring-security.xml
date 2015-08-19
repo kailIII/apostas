@@ -16,8 +16,17 @@
         <security:http auto-config="true" entry-point-ref="customAuthenticationEntryPoint" >
                 <security:form-login login-page="/login.jsp" default-target-url="/pages/principal/" authentication-failure-url="/login.jsp" authentication-success-handler-ref="authenticationSuccessHandler" />
                 
-                <security:intercept-url pattern="/pages/usuario/verificar/"                     access="IS_AUTHENTICATED_ANONYMOUSLY" />
-                <security:intercept-url pattern="/pages/**"                                     access="ROLE_LOGADO" />
+                <security:intercept-url pattern="/pages/usuario/verificar/"                             access="IS_AUTHENTICATED_ANONYMOUSLY" />
+                
+                <security:intercept-url pattern="/pages/apostas/**"                                     access="ROLE_ADMIN, ROLE_VISITANTE" />
+                <security:intercept-url pattern="/pages/aposta/**"                                      access="ROLE_ADMIN" />
+                
+                <security:intercept-url pattern="/pages/usuario/logado"                                 access="ROLE_ADMIN, ROLE_VISITANTE" />
+                <security:intercept-url pattern="/pages/usuario/**"                                     access="ROLE_ADMIN" />
+                
+                <!-- caso nao tenha filtros restritivos acima, ao menos deve estar logado -->
+                <!-- a verificacao eh de cima para baixo -->
+                <security:intercept-url pattern="/pages/**"                                             access="ROLE_GERAL" />
         </security:http>
     
         <bean id="customAuthenticationEntryPoint" class="com.jopss.apostas.servicos.security.CustomAuthenticationEntryPoint">

@@ -51,6 +51,7 @@
 
                 <script src="/resources/js/diretivas/mensagem.js"></script>
                 <script src="/resources/js/diretivas/datepicker.js"></script>
+                <script src="/resources/js/diretivas/permissao.js"></script>
 
                 <script src="/resources/js/services/apostaService.js"></script>
                 <script src="/resources/js/services/usuarioService.js"></script>
@@ -64,23 +65,21 @@
 
                 <!-- Configurações padrões para bibliotecas -->
                 <script type="text/javascript">
-                        $.ajaxSetup({
+                                $.ajaxSetup({
                                 cache: false
-                        });
-
-                        /* Desabilita o keydown da tecla ESC no Internet Explorer para que ao digitar Esc 2x os formulários não sejam limpos */
-                        $(document).ready(function () {
-                                $(document).keydown(function (event) {
-                                        if (navigator.appName == "Microsoft Internet Explorer" && event.keyCode == 27) {
-                                                return false;
-                                        }
-                                        return true;
                                 });
+                                /* Desabilita o keydown da tecla ESC no Internet Explorer para que ao digitar Esc 2x os formulários não sejam limpos */
+                                $(document).ready(function () {
+                        $(document).keydown(function (event) {
+                        if (navigator.appName == "Microsoft Internet Explorer" && event.keyCode == 27) {
+                        return false;
+                        }
+                        return true;
                         });
-                </script>
+                        });                </script>
         </head>
 
-        <body ng-controller="AppController">
+        <body ng-controller="AppController as ctrl">
                 <div id="wrapper">
                         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                                 <div class="navbar-header">
@@ -118,12 +117,15 @@
                                                         <li>
                                                                 <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Principal</a>
                                                         </li>
-                                                        <li>
-                                                                <a href="#/aposta"><i class="fa fa-table fa-fw"></i> Nova Aposta</a>
-                                                        </li>
-                                                        <li>
-                                                                <a href="#/usuario"><i class="fa fa-table fa-fw"></i>Cadastro de Usuário</a>
-                                                        </li>
+                                                        <aposta-permissao id="div_perm_menu_aposta" papeis="ROLE_ADMIN">
+                                                                <li>
+                                                                        <a href="#/aposta"><i class="fa fa-table fa-fw"></i> Nova Aposta</a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="#/usuario"><i class="fa fa-table fa-fw"></i>Cadastro de Usuário</a>
+                                                                </li>
+                                                        </aposta-permissao>
+
                                                 </ul>
                                         </div>
                                 </div>

@@ -70,12 +70,7 @@ public class Aposta extends Modelos {
                 return this.getRepository().findById(this.getId());
         }
 
-        public List<Aposta> buscarTodos() {
-                return IteratorUtils.toList(this.getRepository().findAll().iterator());
-        }
-
         public List<Aposta> buscarRegistroPaginado(ApostaForm form) throws ApostasException {
-
                 PageRequest pageRequest = form.getPageRequest();
                 Page<Aposta> pagina;
                 if (form.getDataInicial() != null && form.getDataFinal() != null) {
@@ -91,7 +86,8 @@ public class Aposta extends Modelos {
                 }
 
                 form.setTotalRegistros(pagina.getTotalElements());
-                return pagina.getContent();
+                List<Aposta> ret = pagina.getContent();
+                return ret;
         }
 
         public Aposta salvar() throws ApostasException {

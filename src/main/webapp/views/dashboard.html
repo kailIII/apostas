@@ -33,8 +33,10 @@
                                 <td>{{aposta.dateFinalizacao| date:'dd/MM/yyyy'}}</td>
                                 <td>-</td>
                                 <td>
-                                        <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="ctrl.editar(aposta.id)"/>
-                                        <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="ctrl.deletar(aposta.id)"/>
+                                        <aposta-permissao id="div_perm_acoes_dash" papeis="ROLE_ADMIN">
+                                                <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="ctrl.editar(aposta.id)"/>
+                                                <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="ctrl.deletar(aposta.id)"/>
+                                        </aposta-permissao>
                                 </td>
                         </tr>
                 </tbody>
