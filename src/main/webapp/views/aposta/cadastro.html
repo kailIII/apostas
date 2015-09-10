@@ -7,35 +7,37 @@
                 <fieldset>
                         <div class="form-group col-md-12">
                                 <label class="control-label">Descrição</label>
-                                <input class="form-control" placeholder="Descrição" name="descricao" type="text" autofocus ng-model="aposta.descricao" required>
+                                <input class="form-control" placeholder="Descrição" name="descricao" type="text" autofocus ng-model="aposta.descricao" required ng-disabled="apostaFinalizada()">
                                 <span ng-class="error" ng-show="apostaForm.descricao.$error.required && apostaForm.descricao.$dirty">Descrição é obrigatório</span>
                         </div>
                         <div class="form-group col-md-12">
                                 <label>Data Final</label>
-                                <input class="form-control" placeholder="Data Final" id="dateFinalizacao" name="dateFinalizacao" type="text" ng-model="aposta.dateFinalizacao" required datepicker>
+                                <input class="form-control" placeholder="Data Final" id="dateFinalizacao" name="dateFinalizacao" type="text" ng-model="aposta.dateFinalizacao" required datepicker ng-disabled="apostaFinalizada()">
                                 <span ng-class="error" ng-show="apostaForm.dateFinalizacao.$error.required && apostaForm.dateFinalizacao.$dirty">Date Final é obrigatória</span>
                         </div>
                 </fieldset>
 
-                <h3>Pessoas</h3>
-                <fieldset>
-                        <div class="form-group col-md-12">
-                                <select class="form-control" name="usuario" ng-options="usu.nome for usu in usuarios track by usu.id" ng-model="palpite.usuario" >
-                                        <option value="">Selecione...</option>
-                                </select>
-                        </div>
+                <div ng-hide="apostaFinalizada()">
+                        <h3>Pessoas</h3>
+                        <fieldset>
+                                <div class="form-group col-md-12">
+                                        <select class="form-control" name="usuario" ng-options="usu.nome for usu in usuarios track by usu.id" ng-model="palpite.usuario" >
+                                                <option value="">Selecione...</option>
+                                        </select>
+                                </div>
 
-                        <div class="form-group col-md-12">
-                                <label class="control-label">Palpite</label>
-                                <input class="form-control" placeholder="Palpite" name="palpite_descricao" type="text" autofocus ng-model="palpite.descricao">
-                        </div>
+                                <div class="form-group col-md-12">
+                                        <label class="control-label">Palpite</label>
+                                        <input class="form-control" placeholder="Palpite" name="palpite_descricao" type="text" autofocus ng-model="palpite.descricao">
+                                </div>
 
-                        <div class="form-group col-md-5" >
-                        </div>
-                        <div class="form-group col-md-2" >
-                                <input type="button" class="btn btn-lg btn-primary btn-large" value="Adicionar Palpite" ng-click="adicionarPalpite()">
-                        </div>
-                </fieldset>
+                                <div class="form-group col-md-5" >
+                                </div>
+                                <div class="form-group col-md-2" >
+                                        <input type="button" class="btn btn-lg btn-primary btn-large" value="Adicionar Palpite" ng-click="adicionarPalpite()">
+                                </div>
+                        </fieldset>
+                </div>
 
                 <table class="table table-bordered" ng-show="aposta.palpites.length > 0">
                         <thead>
@@ -46,12 +48,13 @@
                                 </tr>
                         </thead>
                         <tbody>
-                                <tr ng-repeat="pal in aposta.palpites" >
+                                <tr ng-repeat="pal in aposta.palpites">
                                         <td>{{pal.usuario.nome}}</td>
                                         <td>{{pal.descricao}}</td>
                                         <td>
-                                                <input type="button" class="btn btn-lg btn-danger" value="Remover">
-                                                <input type="button" class="btn btn-lg btn-info" value="Declarar Vencedor">
+                                                <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="removerPalpite($index)" ng-hide="apostaFinalizada()">
+                                                <input type="button" class="btn btn-lg btn-info" value="Declarar Vencedor" ng-click="declararVencedor($index)" id="bt_vencedor_{{$index}}" ng-show="!pal.venceu && !apostaFinalizada()">
+                                                <input type="button" class="btn btn-lg btn-primary" value="Desfazer Vencedor" ng-click="desfazerVencedor($index)" id="bt_rem_vencedor_{{$index}}" ng-show="pal.venceu && !apostaFinalizada()">
                                         </td>
                                 </tr>
                         </tbody>
@@ -61,7 +64,7 @@
                         <div class="form-group col-md-5" >
                         </div>
                         <div class="form-group col-md-2" >
-                                <input type="submit" class="btn btn-lg btn-success btn-large" value="Salvar Aposta">
+                                <input type="submit" class="btn btn-lg btn-success btn-large" value="Salvar Aposta" ng-hide="apostaFinalizada()">
                         </div>
                 </fieldset>
         </form>

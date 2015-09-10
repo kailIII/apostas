@@ -3,7 +3,9 @@ package com.jopss.apostas.modelos;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jopss.apostas.excecoes.ApostasException;
+import com.jopss.apostas.excecoes.DataNaoPermitidaException;
 import com.jopss.apostas.servicos.repositorio.ApostaRepositorio;
+import com.jopss.apostas.util.DateUtilsApostas;
 import com.jopss.apostas.util.JsonDateDeserializer;
 import com.jopss.apostas.util.JsonDateSerializer;
 import com.jopss.apostas.util.Modelos;
@@ -66,6 +68,11 @@ public class Aposta extends Modelos {
         }
         
         public Aposta salvar() throws ApostasException{
+                
+                if(this.dateFinalizacao.before(DateUtilsApostas.arredondaDataZerandoHora(new Date()))){
+                        throw new DataNaoPermitidaException("aposta.falha.data_nao_permitida");
+                }
+                
                 for(Palpite palpite : this.getPalpites()  ){
                         palpite.setAposta(this);
                 }
@@ -95,6 +102,10 @@ public class Aposta extends Modelos {
 
         public Date getDateFinalizacao() {
                 return dateFinalizacao;
+        }
+        
+        public void setDateFinalizacao(Date dateFinalizacao) {
+                this.dateFinalizacao = dateFinalizacao;
         }
 
         public List<Palpite> getPalpites() {

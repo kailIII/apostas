@@ -10,7 +10,7 @@ public class SessaoUsuario {
 
 	public Usuario getUsuarioLogado(HttpSession session) {
                 Object obj = session.getAttribute("USUARIO_LOGADO");
-                if(obj == null) throw new UsuarioNaoLogadoException("Usuário não logado");
+                if(obj == null) throw new UsuarioNaoLogadoException("usuario.falha.nao_logado");
                 return (Usuario) obj;
 	}
         

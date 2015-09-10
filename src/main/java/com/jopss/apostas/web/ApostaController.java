@@ -1,5 +1,6 @@
 package com.jopss.apostas.web;
 
+import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.modelos.Aposta;
 import com.jopss.apostas.web.forms.Resposta;
 import com.jopss.apostas.web.util.ApostasController;
@@ -66,6 +67,9 @@ public class ApostaController extends ApostasController {
                 } catch (TransactionSystemException ex) {
                         log.error(ex);
                         resposta.addErros(ex, resp);
+                }catch( ApostasException ex){
+                        log.error(ex);
+                        resposta.addErro(ex, resp);
                 } catch (Exception ex) {
                         log.error(ex);
                         resposta.addErroGenerico(ex, resp);

@@ -10,6 +10,25 @@ appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usua
                                 addMensagemValidacao($scope, "Verifique os campos obrigatórios: Usuário e Palpite");
                         }
                 };
+                
+                $scope.removerPalpite = function (idx) {
+                        $scope.aposta.palpites.splice(idx,1);
+                };
+                
+                $scope.declararVencedor = function (idx) {
+                        $scope.aposta.palpites[idx].venceu = true;
+                };
+                
+                $scope.desfazerVencedor = function (idx) {
+                        $scope.aposta.palpites[idx].venceu = false;
+                };
+                
+                $scope.apostaFinalizada = function () {
+                        if($scope.aposta.dateFinalizacao != null){
+                                return new Date() > new Date($scope.aposta.dateFinalizacao);
+                        }
+                        return false;
+                };
 
                 $scope.salvar = function () {
                         if ($scope.aposta.palpites.length == 0) {
@@ -18,6 +37,7 @@ appMain.controller("ApostaController", ["$scope","$routeParams", "Aposta", "Usua
                                 Aposta.salvar($scope.aposta).then(function (result) {
                                         addMensagemRetorno($scope, result);
                                         limparTela($scope);
+                                        $scope.init();
                                 }, function (result) {
                                         addMensagemRetorno($scope, result);
                                 });

@@ -1,5 +1,6 @@
 package com.jopss.apostas.web.forms;
 
+import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.util.FormatterAndValues;
 import com.jopss.apostas.util.Modelos;
 import java.io.Serializable;
@@ -64,6 +65,17 @@ public class Resposta implements Serializable{
                 }
                 getMensagens().add(new Retorno("mensagem", ex.getMessage()));
                 resp.setStatus(HTTP_STATUS_ERROR);
+        }
+        
+        /**
+         * Adiciona qualquer mensagem de validacao generada apartir do nao cumprimento de regras de negocio.
+         * 
+         * @param ex ApostasException
+         * @param resp HttpServletResponse
+         */
+        public void addErro(ApostasException ex, HttpServletResponse resp){  
+                getMensagens().add(new Retorno("mensagem", ex.getMessage()));
+                resp.setStatus(HTTP_STATUS_VALIDATION);
         }
         
         /**
